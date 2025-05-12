@@ -14,7 +14,7 @@ export const AccountFragment = graphql(
   `
     fragment Account on Account {
       __typename
-      username {
+      username(request: { namespace: "${process.env.NEXT_PUBLIC_PINKCOLLAR_NAMESPACE_CONTRACT}" }) {
         ...Username
       }
       address

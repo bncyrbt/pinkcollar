@@ -1,50 +1,46 @@
-// app/api/auth/login/route.ts
-import { NextResponse } from "next/server";
-import { PublicClient, testnet } from "@lens-protocol/client";
-import { signatureFrom } from "@lens-protocol/types";
-import { cookieStorage } from "@/lib/lens/cookieStorage";
+import {
+  createDataResponse,
+  createErrorResponse,
+  parseRequest,
+} from "../../utils";
+import { getAuthenticatedUser, login } from "@/lib/pinkcollar/auth";
 
-type LoginRequest = Request &
-  Partial<{
-    id: string; // UUID of the challenge
-    signature: string;
-  }>;
+type LoginRequest = Partial<{
+  id: string; // UUID of the challenge
+  signature: string;
+}>;
 
-// if the user submits a signature we authenticate with it
-// if the user submits without (but with cookies) - we try to resume
-// if resume fails the user needs to sign a challenge and we return a list of available accounts
 export async function POST(request: Request) {
-  const { id, signature } = (await request.json()) as LoginRequest;
+  const {
+    json: { id, signature },
+    lensClient,
+  } = await parseRequest<LoginRequest>(request);
 
-  const isResume = !id || !signature;
+  const isAuthentication = id && signature;
 
-  const publicClient = PublicClient.create({
-    environment: testnet,
-    storage: cookieStorage,
-  });
-
-  if (isResume) {
-    const session = await publicClient.resumeSession();
-    if (session.isOk()) {
-      return NextResponse.json({ success: true });
+  if (isAuthentication) {
+    const user = await login(lensClient.public, { id, signature });
+    if (user) {
+      return createDataResponse({
+        data: user,
+      });
     }
-    return NextResponse.json(
-      { error: "use /auth/challenge to sign a challenge first" },
-      { status: 401 }
-    );
+
+    return createErrorResponse({
+      error: "Authentication Failed",
+      status: 401,
+    });
   }
 
-  const authResult = await publicClient.authenticate({
-    id,
-    signature: signatureFrom(signature),
+  if (lensClient.session) {
+    const user = getAuthenticatedUser(lensClient.session);
+    return createDataResponse({
+      data: user,
+    });
+  }
+
+  return createErrorResponse({
+    error: "use /auth/challenge to sign a challenge first",
+    status: 401,
   });
-
-  if (authResult.isErr()) {
-    return NextResponse.json(
-      { error: authResult.error.message },
-      { status: 401 }
-    );
-  }
-
-  return NextResponse.json({ success: true });
 }

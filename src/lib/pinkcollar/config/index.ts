@@ -1,0 +1,4 @@
+export const AppConfig = {
+  APP_CONTRACT_ADDRESS: process.env.NEXT_PUBLIC_PINKCOLLAR_APP_CONTRACT,
+  API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+};

@@ -1,42 +1,34 @@
-import { cookieStorage } from "@/lib/lens/cookieStorage";
-import { evmAddress, PublicClient, Role, testnet } from "@lens-protocol/client";
-import { fetchAccountsAvailable } from "@lens-protocol/client/actions";
-import { NextResponse } from "next/server";
+import {
+  createDataResponse,
+  createErrorResponse,
+  parseRequest,
+} from "../../utils";
+import { AvailableAccount } from "@/lib/pinkcollar/auth/types";
+import { ApiResponse } from "../../types";
+import { getAvailableAccounts } from "@/lib/pinkcollar/auth";
 
-export async function POST(request: Request) {
-  const { wallet } = await request.json();
+type AuthListRequestBody = {
+  wallet: string;
+};
+
+type AuthListResponseBody = ApiResponse<AvailableAccount[]>;
+
+export async function POST(request: Request): Promise<AuthListResponseBody> {
+  const {
+    json: { wallet },
+    lensClient,
+  } = await parseRequest<AuthListRequestBody>(request);
 
   if (!wallet) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return createErrorResponse({ error: "Invalid request", status: 400 });
   }
 
-  const publicClient = PublicClient.create({
-    environment: testnet,
-    storage: cookieStorage,
-  });
-
-  const availableAccounts = await fetchAccountsAvailable(publicClient, {
-    managedBy: evmAddress(wallet),
-    includeOwned: true,
-  });
-  if (availableAccounts.isOk()) {
-    return NextResponse.json({
-      success: true,
-      data: availableAccounts.value.items.map((item) => ({
-        account: item.account.address,
-        username: item.account.username?.value,
-        role: typenameToAuthenticationRole(item.__typename),
-      })),
+  try {
+    const accounts = await getAvailableAccounts(lensClient.public, wallet);
+    return createDataResponse({
+      data: accounts,
     });
+  } catch {
+    return createErrorResponse({ error: "Internal Server Error", status: 500 });
   }
-  return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
 }
-
-const typenameToAuthenticationRole = (typename: string) => {
-  switch (typename) {
-    case "AccountOwned":
-      return Role.AccountOwner;
-    case "AccountManaged":
-      return Role.AccountManager;
-  }
-};

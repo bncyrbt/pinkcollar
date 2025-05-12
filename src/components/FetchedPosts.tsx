@@ -26,9 +26,12 @@ export const FetchedPosts = () => {
       )}
       {data.items.map((post) => (
         <div key={post.id} className="p-2 m-3 border-2">
-          {post.__typename === "Post" &&
-            post.metadata.__typename === "TextOnlyMetadata" &&
-            post.metadata.content}
+          <div>author: {post.author.username?.value}</div>
+          <div>
+            {post.__typename === "Post" &&
+              post.metadata.__typename === "TextOnlyMetadata" &&
+              post.metadata.content}
+          </div>
         </div>
       ))}
     </div>
