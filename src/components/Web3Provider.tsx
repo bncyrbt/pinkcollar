@@ -1,47 +1,31 @@
 "use client";
-import { LensProvider } from "@lens-protocol/react";
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { lensTestnet } from "wagmi/chains";
+import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import React from "react";
-import { client } from "@/lens/client";
-
-const config = createConfig(
-  getDefaultConfig({
-    // Your dApps chains
-    chains: [lensTestnet],
-    transports: {
-      // RPC URL for each chain
-      [lensTestnet.id]: http("https://rpc.testnet.lens.xyz"),
-    },
-
-    // Required API Keys
-    walletConnectProjectId:
-      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? "",
-
-    // Required App Info
-    appName: "Your App Name",
-
-    // Optional App Info
-    appDescription: "Your App Description",
-    appUrl: "https://family.co", // your app's url
-    appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
-  })
-);
+import { ConnectKitProvider } from "connectkit";
+import { walletConfig } from "@/lib/wallet/config";
+import { useAuthStore } from "@/lib/store/auth";
 
 const queryClient = new QueryClient();
 
 export const Web3Provider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
+  const connectWallet = useAuthStore((state) => state.connectWallet);
+  const disconnectWallet = useAuthStore((state) => state.disconnectWallet);
+
   return (
-    <LensProvider client={client}>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <ConnectKitProvider>{children}</ConnectKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </LensProvider>
+    <WagmiProvider config={walletConfig}>
+      <QueryClientProvider client={queryClient}>
+        <ConnectKitProvider
+          onConnect={({ address }) => {
+            console.log("web3provider", address);
+            if (address) connectWallet(address);
+          }}
+          onDisconnect={disconnectWallet}
+        >
+          {children}
+        </ConnectKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 };

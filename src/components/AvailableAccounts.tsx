@@ -1,23 +1,25 @@
-import { getAvailableAccounts } from "@/lib/client-services/auth";
 import { AccountCard } from "./AccountCard";
-import { useQuery } from "@tanstack/react-query";
-type AvailableAccountsProps = {
-  wallet: string;
-};
+import { useAuthStore } from "@/lib/store/auth";
+import { useEffect } from "react";
 
-export function AvailableAccounts({ wallet }: AvailableAccountsProps) {
-  const { data, isLoading } = useQuery({
-    queryKey: [wallet],
-    queryFn: () => getAvailableAccounts(wallet),
-  });
+export function AvailableAccounts() {
+  const accounts = useAuthStore((state) => state.availableAccounts);
+  const fetchAvailableAccounts = useAuthStore(
+    (state) => state.fetchAvailableAccounts
+  );
 
-  if (isLoading) return "Loading...";
-  if (!data || data.length === 0) return <div>No accounts found.</div>;
+  useEffect(() => {
+    fetchAvailableAccounts();
+  }, [fetchAvailableAccounts]);
+
+  if (!accounts) return <div>Loading ...</div>;
+
+  if (!accounts.length) return <div>No accounts found.</div>;
 
   return (
     <ul>
-      {data.map((account) => (
-        <li key={account.address}>
+      {accounts.map((account) => (
+        <li key={account.account}>
           <AccountCard account={account} />
         </li>
       ))}

@@ -1,4 +1,5 @@
-import { UsernameFragment, graphql } from "@lens-protocol/client";
+"use client";
+import { UsernameFragment, graphql } from "@lens-protocol/react";
 
 export const AccountMetadataFragment = graphql(
   `

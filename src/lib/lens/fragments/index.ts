@@ -1,4 +1,5 @@
-import { FragmentOf } from "@lens-protocol/react";
+"use client";
+import { FragmentOf } from "@lens-protocol/client";
 import { AccountFragment, AccountMetadataFragment } from "./accounts";
 import { PostMetadataFragment } from "./posts";
 

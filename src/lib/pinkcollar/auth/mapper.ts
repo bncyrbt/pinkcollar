@@ -1,13 +1,20 @@
 import {
   AccountAvailable,
+  ChallengeRequest,
   AuthenticatedUser as LensAuthenticatedUser,
+  Role,
 } from "@lens-protocol/client";
-import { AccountRole, AuthenticatedUser, AvailableAccount } from "./types";
+import { AuthenticatedUser, AvailableAccount, LoginParams } from "./types";
+import { AppConfig } from "../config";
+
+/* 
+  Mappers between LensSDK entities to 
+*/
 
 export const toAvailableAccount = (obj: AccountAvailable): AvailableAccount => {
   return {
     account: obj.account.address,
-    role: typenameToAuthenticationRole(obj.__typename)!,
+    role: toAuthenticationRoleFromAccountType(obj.__typename)!,
     username: obj.account.username?.value,
   };
 };
@@ -18,17 +25,61 @@ export const toAuthenticatedUser = (
   return {
     address: obj.address,
     authenticationId: obj.authenticationId,
-    role: typenameToAuthenticationRole(obj.role)!,
+    role: obj.role,
     signer: obj.signer,
     sponsored: obj.sponsored,
   };
 };
 
-export const typenameToAuthenticationRole = (typename: string) => {
-  switch (typename) {
-    case "AccountOwned":
+/* export const toAuthenticationRoleFromLensRole = (role: Role) => {
+  switch (role) {
+    case Role.AccountOwner:
       return AccountRole.ACCOUNT_OWNER;
-    case "AccountManaged":
+    case Role.AccountManager:
       return AccountRole.ACCOUNT_MANAGER;
   }
+}; */
+export const toAuthenticationRoleFromAccountType = (typename: string) => {
+  switch (typename) {
+    case "AccountOwned":
+      return Role.AccountOwner;
+    case "AccountManaged":
+      return Role.AccountManager;
+  }
 };
+
+export function toChallengeRequest(params: LoginParams) {
+  const { account, signer, role } = params;
+
+  let challengeRequest: ChallengeRequest = {
+    onboardingUser: {
+      app: AppConfig.APP_CONTRACT_ADDRESS,
+      wallet: signer,
+    },
+  };
+
+  switch (role) {
+    case Role.AccountOwner:
+      challengeRequest = {
+        accountOwner: {
+          account,
+          owner: signer,
+          app: AppConfig.APP_CONTRACT_ADDRESS,
+        },
+      };
+      break;
+    case Role.AccountManager:
+      challengeRequest = {
+        accountManager: {
+          account,
+          manager: signer,
+          app: AppConfig.APP_CONTRACT_ADDRESS,
+        },
+      };
+      break;
+    default:
+      return challengeRequest;
+  }
+
+  return challengeRequest;
+}

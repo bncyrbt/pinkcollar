@@ -1,25 +1,9 @@
+"use client";
 import { PublicClient, testnet } from "@lens-protocol/client";
-import { cookieStorage } from "./cookieStorage";
 import { fragments } from "./fragments";
 
-export const lensClient = PublicClient.create({
+export const lensCLient = PublicClient.create({
   environment: testnet,
-  storage: cookieStorage,
+  storage: typeof window !== "undefined" ? window.localStorage : undefined,
   fragments,
 });
-
-export const getLensClient = async ({ origin = "" }: { origin?: string }) => {
-  const publicClient = PublicClient.create({
-    environment: testnet,
-    storage: cookieStorage,
-    fragments,
-    origin,
-  });
-  // try to get SessionClient for authenticated requests
-  const sessionClient = await publicClient.resumeSession();
-
-  return {
-    public: publicClient,
-    session: sessionClient.isOk() ? sessionClient.value : null,
-  };
-};

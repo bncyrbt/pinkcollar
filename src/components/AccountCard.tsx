@@ -1,11 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  AvailableAccount,
-  getAccountChallenge,
-  loginWithSignedChallenge,
-} from "@/lib/client-services/auth";
-import { useAuth } from "@/lib/store/auth";
+import { AvailableAccount } from "@/lib/pinkcollar/auth";
+import { useAuthStore } from "@/lib/store/auth";
 import { useAccount, useSignMessage } from "wagmi";
 
 type AccountCardProps = {
@@ -16,23 +12,15 @@ export function AccountCard({ account }: AccountCardProps) {
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
 
+  const login = useAuthStore((state) => state.login);
+
   const onClick = async () => {
-    const challenge = await getAccountChallenge({
-      account: account.account,
-      wallet: address as string,
+    login({
       role: account.role,
+      account: account.account,
+      signer: address as string,
+      signMessage: (message) => signMessageAsync({ message }),
     });
-    console.log("got the challenge", challenge);
-    if (challenge) {
-      console.log("getting ready to sign");
-      const signature = await signMessageAsync({ message: challenge.text });
-      // post signature to auth/login
-      const isAuthenticated = await loginWithSignedChallenge({
-        id: challenge.id,
-        signature,
-      });
-      console.log("Authentication succeed", { isAuthenticated });
-    }
   };
 
   return (

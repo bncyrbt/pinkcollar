@@ -1,3 +1,4 @@
+"use client";
 import {
   ArticleMetadataFragment,
   AudioMetadataFragment,
@@ -5,7 +6,7 @@ import {
   ImageMetadataFragment,
   VideoMetadataFragment,
   graphql,
-} from "@lens-protocol/client";
+} from "@lens-protocol/react";
 
 export const PostMetadataFragment = graphql(
   `

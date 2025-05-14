@@ -1,7 +1,6 @@
-export enum AccountRole {
-  ACCOUNT_OWNER = "ACCOUNT_OWNER",
-  ACCOUNT_MANAGER = "ACCOUNT_MANAGER",
-}
+import { Role } from "@lens-protocol/client";
+
+export type AccountRole = Role;
 
 export type AvailableAccount = {
   account: string;
@@ -20,4 +19,11 @@ export type AuthenticatedUser = {
 export type SignedChallenge = {
   id: string;
   signature: string;
+};
+
+export type SignMessage = (message: string) => Promise<string>;
+
+export type LoginParams = Pick<AvailableAccount, "account" | "role"> & {
+  signer: string;
+  signMessage: SignMessage;
 };
