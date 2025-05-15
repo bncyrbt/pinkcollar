@@ -1,9 +1,8 @@
 import { useAuthStore } from "@/lib/store/auth";
-import { Button } from "../ui/button";
 import { AuthButton } from "./AuthButton";
 import { AuthDialog } from "./AuthDialog";
-import { logout } from "@/actions/auth";
 import { useAccount } from "wagmi";
+import ProfilePopoverMenu from "../ProfilePopoverMenu";
 
 export const Auth = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -17,13 +16,7 @@ export const Auth = () => {
   return (
     <div>
       <AuthDialog />
-      {!isAuthenticated ? (
-        <AuthButton />
-      ) : (
-        <Button onClick={logout} variant="outline">
-          Logout
-        </Button>
-      )}
+      {!isAuthenticated ? <AuthButton /> : <ProfilePopoverMenu />}
     </div>
   );
 };
