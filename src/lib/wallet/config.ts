@@ -28,12 +28,16 @@ const wagmiConfig = createConfig(
 
 wagmiConfig.subscribe(
   (state) => {
-    const curConnection = state.current && state.connections.get(state.current);
-    if (curConnection) {
-      useAuthStore.getState().connectWallet(curConnection.accounts[0]);
-    }
+    const curConnection = state.current
+      ? state.connections.get(state.current)
+      : null;
+    return curConnection?.accounts?.[0] ?? null;
   },
-  (chainId) => console.log(`Chain ID changed to ${chainId}`)
+  (account) => {
+    if (account) {
+      useAuthStore.getState().connectWallet(account);
+    }
+  }
 );
 
 export const walletConfig = wagmiConfig;

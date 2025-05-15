@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useCreateAccountForm } from "@/hooks/useCreateAccountForm";
-import { useEffect } from "react";
 
 export const CreateAccountForm = () => {
   const {
@@ -13,7 +12,7 @@ export const CreateAccountForm = () => {
     account,
     setLocalName,
     handleCreateAccount,
-    //handleSwitchAccount,
+    handleSwitchAccount,
   } = useCreateAccountForm();
 
   return (
@@ -32,28 +31,33 @@ export const CreateAccountForm = () => {
           </span>
           <Input
             id="username"
-            value={localName}
+            value={account?.username ?? localName}
             onChange={(e) => setLocalName(e.target.value)}
             placeholder="yourname"
             className="rounded-l-none"
             required
+            disabled={!!account}
           />
         </div>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
+        {account && (
+          <p className="text-sm text-green-600">
+            Your freshly frush account is now ready!
+          </p>
+        )}
       </div>
 
-      <Button type="submit" disabled={!!pendingAction}>
-        {pendingAction ? "Sign with your wallet" : "Create Account"}
-      </Button>
-
-      {/* {account && (
+      {account ? (
         <div>
-          <p className="text-green-600">Account created: {account.username}</p>
           <Button onClick={handleSwitchAccount}>
             Switch to {account.username}
           </Button>
         </div>
-      )} */}
+      ) : (
+        <Button type="submit" disabled={!!pendingAction}>
+          {pendingAction ? "Creating..." : "Create Account"}
+        </Button>
+      )}
     </form>
   );
 };

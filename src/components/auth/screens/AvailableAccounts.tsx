@@ -1,6 +1,5 @@
 import { AvailableAccount, getAvailableAccounts } from "@/lib/pinkcollar/auth";
-import { AccountCard } from "./auth/screens/AccountCard";
-import { useAuthStore } from "@/lib/store/auth";
+import { AccountCard } from "./AccountCard";
 import { Role } from "@lens-protocol/client";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";

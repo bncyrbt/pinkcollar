@@ -1,6 +1,6 @@
 "use client";
 import { useAppInit } from "@/hooks/useAppInit";
-import { Auth } from "./auth/Auth";
+import { Auth } from "../auth/Auth";
 
 export const Header = () => {
   useAppInit();

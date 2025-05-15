@@ -5,9 +5,7 @@ import { useModal } from "connectkit";
 import { useEffect } from "react";
 
 export function AuthButton() {
-  const isWalletConnected = useAuthStore((state) => state.connectedWallet);
   const status = useAuthStore((state) => state.status);
-  const user = useAuthStore((state) => state.user);
   const connectedWallet = useAuthStore((state) => state.connectedWallet);
 
   const { openDialog } = useAuthDialogStore();
@@ -23,20 +21,11 @@ export function AuthButton() {
     return (
       <Button
         onClick={() =>
-          isWalletConnected ? openDialog() : setConnectModalOpen(true)
+          connectedWallet ? openDialog() : setConnectModalOpen(true)
         }
       >
-        {isWalletConnected ? "Login" : "Connect Wallet"}
+        {connectedWallet ? "Login" : "Connect Wallet"}
       </Button>
     );
   }
-
-  return (
-    <div>
-      <span>
-        {user?.signer} + {user?.role}
-      </span>
-      {/* Avatar / dropdown here */}
-    </div>
-  );
 }

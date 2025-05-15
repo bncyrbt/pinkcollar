@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Web3Provider } from "@/components/Web3Provider";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/layout/Header";
 
 export const metadata: Metadata = {
   title: "Pinkcollar",

@@ -1,4 +1,4 @@
-import { AvailableAccounts } from "@/components/AvailableAccounts";
+import { AvailableAccounts } from "./AvailableAccounts";
 import {
   DialogDescription,
   DialogHeader,

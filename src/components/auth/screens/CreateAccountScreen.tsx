@@ -1,4 +1,4 @@
-import { CreateAccountForm } from "../../CreateAccountForm";
+import { CreateAccountForm } from "./CreateAccountForm";
 import { DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 
 export const CreateAccountScreen = () => {

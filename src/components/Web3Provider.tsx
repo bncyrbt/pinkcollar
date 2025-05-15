@@ -18,7 +18,6 @@ export const Web3Provider = ({
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider
           onConnect={({ address }) => {
-            console.log("web3provider", address);
             if (address) connectWallet(address);
           }}
           onDisconnect={disconnectWallet}

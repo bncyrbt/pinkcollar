@@ -1,20 +1,11 @@
 import { useAuthDialogStore } from "@/lib/store/authDialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import { CreateAccountScreen } from "./screens/CreateAccountScreen";
 import { ChooseAccountScreen } from "./screens/ChooseAccountScreen";
-import { LoginNewAccountScreen } from "./screens/LoginNewAccountScreen";
-import { Button } from "../ui/button";
-import { useAuthStore } from "@/lib/store/auth";
+import { WelcomeScreen } from "./screens/WelcomeScreen";
 
 export function AuthDialog() {
-  const user = useAuthStore((state) => state.user);
-  const { isOpen, view, closeDialog, setView } = useAuthDialogStore();
+  const { isOpen, view, closeDialog } = useAuthDialogStore();
 
   if (!isOpen) return null;
 
@@ -24,20 +15,8 @@ export function AuthDialog() {
         return <ChooseAccountScreen />;
       case "createAccount":
         return <CreateAccountScreen />;
-      case "accountCreated":
-        return (
-          <LoginNewAccountScreen onLoginSuccess={() => setView("welcome")} />
-        );
       case "welcome":
-        return (
-          <>
-            <DialogHeader>
-              <DialogTitle>Welcome</DialogTitle>
-              <DialogDescription>Hey motek, glade you came</DialogDescription>
-            </DialogHeader>
-            <Button onClick={closeDialog}>Close</Button>
-          </>
-        );
+        return <WelcomeScreen />;
     }
   };
 

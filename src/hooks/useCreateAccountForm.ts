@@ -10,6 +10,7 @@ import { fetchAccount } from "@/lib/pinkcollar/account";
 import { useAuthDialogStore } from "@/lib/store/authDialog";
 import { account as prepareAccountMetadata } from "@lens-protocol/metadata";
 import { storageClient } from "@/lib/storage/client";
+import { useAuthStore } from "@/lib/store/auth";
 
 export const useCreateAccountForm = () => {
   const [localName, setLocalName] = useState("");
@@ -18,6 +19,7 @@ export const useCreateAccountForm = () => {
 
   const pendingAction = useWalletStore((state) => state.pendingAction);
   const setView = useAuthDialogStore((state) => state.setView);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const createAccount = useCreateAccount();
 
@@ -52,21 +54,26 @@ export const useCreateAccountForm = () => {
       if (account.isOk()) {
         setAccount(account.value);
         setError("");
-        setView("accountCreated");
       } else {
         setError(account.error.message);
       }
     } else {
       setError(result.error.message);
     }
-  }, [localName, createAccount, setView]);
+  }, [localName, createAccount]);
 
   const handleSwitchAccount = useCallback(async () => {
     if (!account) {
       return;
     }
-    await switchAccount({ account: account.account });
-  }, [account]);
+    const authUser = await switchAccount({ account: account.account });
+    if (authUser.isOk()) {
+      setAuth(authUser.value);
+      setView("welcome");
+    } else {
+      setView("chooseAccount");
+    }
+  }, [account, setView, setAuth]);
 
   return {
     localName,
