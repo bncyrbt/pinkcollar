@@ -11,11 +11,18 @@ import { AppConfig } from "../config";
   Mappers between LensSDK entities to 
 */
 
-export const toAvailableAccount = (obj: AccountAvailable): AvailableAccount => {
+type ToAvailableAccountParams = {
+  __typename: string;
+  account: string;
+  username: string;
+};
+export const toAvailableAccount = (
+  params: ToAvailableAccountParams
+): AvailableAccount => {
   return {
-    account: obj.account.address,
-    role: toAuthenticationRoleFromAccountType(obj.__typename)!,
-    username: obj.account.username?.value,
+    account: params.account,
+    role: toAuthenticationRoleFromAccountType(params.__typename)!,
+    username: params.username,
   };
 };
 
