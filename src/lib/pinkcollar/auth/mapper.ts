@@ -1,12 +1,11 @@
 import {
   AuthenticatedUser as LensAuthenticatedUser,
-  Role,
   Account as LensAccount,
 } from "@lens-protocol/client";
 import {
   AccountMetadataAttributesKeys,
   AuthenticatedUser,
-  AvailableAccount,
+  Account,
   BioLink,
   LoginParams,
 } from "./types";
@@ -20,7 +19,7 @@ type ToAvailableAccountParams = Pick<
 
 export const toAvailableAccount = (
   params: ToAvailableAccountParams
-): AvailableAccount => {
+): Account => {
   return {
     id: params.address,
     account: params.address,

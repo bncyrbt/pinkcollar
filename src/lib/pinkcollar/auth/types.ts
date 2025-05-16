@@ -11,7 +11,7 @@ export type BioLink = {
   href: string;
 };
 
-export type AvailableAccount = {
+export type Account = {
   id: string;
   account: string;
   username: string;

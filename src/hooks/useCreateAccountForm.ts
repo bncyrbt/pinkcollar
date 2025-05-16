@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useCreateAccount } from "./auth";
 import {
-  AvailableAccount,
+  Account,
   isUsernameAvailable,
   switchAccount,
 } from "@/lib/pinkcollar/auth";
@@ -15,7 +15,7 @@ import { useAuthStore } from "@/lib/store/auth";
 export const useCreateAccountForm = () => {
   const [localName, setLocalName] = useState("");
   const [error, setError] = useState("");
-  const [account, setAccount] = useState<AvailableAccount>();
+  const [account, setAccount] = useState<Account>();
 
   const pendingAction = useWalletStore((state) => state.pendingAction);
   const setView = useAuthDialogStore((state) => state.setView);

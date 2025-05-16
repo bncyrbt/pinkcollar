@@ -1,11 +1,11 @@
-import { AvailableAccount, getAvailableAccounts } from "@/lib/pinkcollar/auth";
+import { Account, getAvailableAccounts } from "@/lib/pinkcollar/auth";
 import { AccountCard } from "./AccountCard";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 export function AvailableAccounts() {
   const { address } = useAccount();
-  const [accounts, setAccounts] = useState<AvailableAccount[]>([]);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {

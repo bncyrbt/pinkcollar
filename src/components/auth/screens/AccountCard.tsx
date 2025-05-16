@@ -1,13 +1,13 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { AvailableAccount, loginToAccount, Role } from "@/lib/pinkcollar/auth";
+import { Account, loginToAccount, Role } from "@/lib/pinkcollar/auth";
 import { useAuthStore } from "@/lib/store/auth";
 import { useAuthDialogStore } from "@/lib/store/authDialog";
 import { useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 
 type AccountCardProps = {
-  account?: AvailableAccount;
+  account?: Account;
 };
 
 export function AccountCard({ account }: AccountCardProps) {
