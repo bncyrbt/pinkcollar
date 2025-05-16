@@ -1,24 +1,46 @@
 import {
-  ChallengeRequest,
   AuthenticatedUser as LensAuthenticatedUser,
   Role,
+  Account as LensAccount,
 } from "@lens-protocol/client";
-import { AuthenticatedUser, AvailableAccount, LoginParams } from "./types";
+import {
+  AccountMetadataAttributesKeys,
+  AuthenticatedUser,
+  AvailableAccount,
+  BioLink,
+  LoginParams,
+} from "./types";
 import { AppConfig } from "../config";
+import { isBioLink } from "./type-guard";
 
-type ToAvailableAccountParams = {
-  __typename: string;
-  account: string;
-  username: string;
-};
+type ToAvailableAccountParams = Pick<
+  LensAccount,
+  "__typename" | "address" | "metadata" | "username"
+>;
 
 export const toAvailableAccount = (
   params: ToAvailableAccountParams
 ): AvailableAccount => {
   return {
-    account: params.account,
-    role: toAuthenticationRoleFromAccountType(params.__typename)!,
-    username: params.username,
+    id: params.address,
+    account: params.address,
+    localName: params.username?.localName ?? "",
+    username: params.username?.value ?? "",
+    metadata: {
+      name: params.metadata?.name ?? "",
+      bio: params.metadata?.bio ?? "",
+      links: params.metadata?.attributes
+        ?.filter((attr) => attr.key === AccountMetadataAttributesKeys.BioLinks)
+        .map((link) => {
+          try {
+            const parsed = JSON.parse(link.value);
+            if (isBioLink(parsed)) return parsed;
+          } catch {
+            return undefined;
+          }
+        })
+        .filter(Boolean) as BioLink[],
+    },
   };
 };
 
@@ -34,47 +56,20 @@ export const toAuthenticatedUser = (
   };
 };
 
-export const toAuthenticationRoleFromAccountType = (typename: string) => {
-  switch (typename) {
-    case "AccountOwned":
-      return Role.AccountOwner;
-    case "AccountManaged":
-      return Role.AccountManager;
-  }
-};
-
 export function toChallengeRequest(params: LoginParams) {
-  const { account, signer, role } = params;
-
-  let challengeRequest: ChallengeRequest = {
-    onboardingUser: {
-      app: AppConfig.APP_CONTRACT_ADDRESS,
-      wallet: signer,
-    },
-  };
-
-  switch (role) {
-    case Role.AccountOwner:
-      challengeRequest = {
+  const { account, signer } = params;
+  return account
+    ? {
         accountOwner: {
           account,
           owner: signer,
           app: AppConfig.APP_CONTRACT_ADDRESS,
         },
-      };
-      break;
-    case Role.AccountManager:
-      challengeRequest = {
-        accountManager: {
-          account,
-          manager: signer,
+      }
+    : {
+        onboardingUser: {
           app: AppConfig.APP_CONTRACT_ADDRESS,
+          wallet: signer,
         },
       };
-      break;
-    default:
-      return challengeRequest;
-  }
-
-  return challengeRequest;
 }

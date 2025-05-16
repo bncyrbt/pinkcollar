@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createTrackedSelector } from "react-tracked";
 import { AuthenticatedUser, Role } from "../pinkcollar/auth";
 
 type AuthStatus =
@@ -9,47 +10,58 @@ type AuthStatus =
 type AuthState = {
   status: AuthStatus;
   isInitializing: boolean;
-  user?: AuthenticatedUser;
-  connectedWallet?: string;
+  isOnboarding: boolean;
   isAuthenticated: boolean;
-  setUser: (user: AuthenticatedUser) => void;
+  session?: AuthenticatedUser;
+  connectedWallet?: string;
   logout: () => void;
   connectWallet: (wallet: string) => void;
   disconnectWallet: () => void;
-  isOnboarding: () => boolean;
-  setAuth: (user: AuthState["user"]) => void;
+  setSession: (session: AuthState["session"]) => void;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+const store = create<AuthState>((set) => ({
   status: "unauthenticated",
-  user: undefined,
+  isInitializing: true,
+  session: undefined,
   connectedWallet: undefined,
-  isInitializing: false,
   isAuthenticated: false,
-  isOnboarding: () => {
-    const role = get().user?.role;
-    return role ? role === Role.OnboardingUser : false;
-  },
-  availableAccounts: undefined,
+  isOnboarding: false,
   // Actions
   logout: async () => {
-    set({ user: undefined, isAuthenticated: false, status: "unauthenticated" });
+    set({
+      session: undefined,
+      status: "unauthenticated",
+      isInitializing: false,
+    });
   },
-  setUser: (user) => set(() => ({ user, isAuthenticated: true })),
   connectWallet: (wallet: string) => {
     set(() => ({ connectedWallet: wallet }));
   },
   disconnectWallet: () => {
     set({ connectedWallet: undefined });
   },
-  setAuth: (user) =>
+  setSession: (session) => {
+    const newStatus = session
+      ? session.role === Role.OnboardingUser
+        ? "authenticatedOnboarding"
+        : "authenticated"
+      : "unauthenticated";
+
     set({
-      user,
-      isAuthenticated: user?.role && user.role !== Role.OnboardingUser,
-      status: user
-        ? user.role === Role.OnboardingUser
-          ? "authenticatedOnboarding"
-          : "authenticated"
-        : "unauthenticated",
-    }),
+      session,
+      isAuthenticated: newStatus === "authenticated",
+      isOnboarding: newStatus === "authenticatedOnboarding",
+      isInitializing: false,
+      status: newStatus,
+    });
+  },
 }));
+
+export const logout = () => store.getState().logout();
+export const setSession = (session: AuthenticatedUser) =>
+  store.getState().setSession(session);
+export const connectWallet = (wallet: string) =>
+  store.getState().connectWallet(wallet);
+
+export const useAuthStore = createTrackedSelector(store);

@@ -10,8 +10,7 @@ const queryClient = new QueryClient();
 export const Web3Provider = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
-  const connectWallet = useAuthStore((state) => state.connectWallet);
-  const disconnectWallet = useAuthStore((state) => state.disconnectWallet);
+  const { connectWallet, disconnectWallet } = useAuthStore();
 
   return (
     <WagmiProvider config={walletConfig}>

@@ -24,14 +24,11 @@ export function getAvailableAccounts(params: GetAvailableAccountsParams) {
     includeOwned: true,
   }).map((res) =>
     res.items
-      .filter((item) => !!item.account.username)
-      .map((account) =>
-        toAvailableAccount({
-          __typename: account.__typename,
-          account: account.account.address,
-          username: account.account.username?.value,
-        })
+      .filter(
+        (item) =>
+          item.account.username?.namespace === AppConfig.APP_NAMESPACE_CONTRACT
       )
+      .map((account) => toAvailableAccount(account.account))
   );
 }
 

@@ -2,10 +2,25 @@ import { Role } from "@lens-protocol/client";
 
 export { Role };
 
+export enum AccountMetadataAttributesKeys {
+  BioLinks = "bio_link",
+}
+
+export type BioLink = {
+  caption: string;
+  href: string;
+};
+
 export type AvailableAccount = {
+  id: string;
   account: string;
   username: string;
-  role: Role;
+  localName: string;
+  metadata: {
+    name?: string;
+    bio?: string;
+    links: BioLink[];
+  };
 };
 
 export type AuthenticatedUser = {
@@ -23,9 +38,9 @@ export type SignedChallenge = {
 
 export type SignMessage = (message: string) => Promise<string>;
 
-export type LoginParams = Pick<AvailableAccount, "account" | "role"> & {
-  account: string;
-  role: Role;
+export type LoginParams = {
+  isOnboarding?: boolean;
+  account?: string; // if no account - onboarding user
   signer: string;
   signMessage: SignMessage;
 };

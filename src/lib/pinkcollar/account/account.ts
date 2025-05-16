@@ -9,12 +9,6 @@ export type FetchAccountParams = {
 };
 export function fetchAccount(params: FetchAccountParams) {
   return lensFetchAccount(getLensPublicClient(), params).map((res) =>
-    res
-      ? toAvailableAccount({
-          __typename: res?.__typename,
-          account: res?.address,
-          username: res?.username?.value,
-        })
-      : never()
+    res ? toAvailableAccount(res) : never()
   );
 }

@@ -19,7 +19,7 @@ export const useCreateAccountForm = () => {
 
   const pendingAction = useWalletStore((state) => state.pendingAction);
   const setView = useAuthDialogStore((state) => state.setView);
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const { setSession } = useAuthStore();
 
   const createAccount = useCreateAccount();
 
@@ -36,20 +36,17 @@ export const useCreateAccountForm = () => {
     }
 
     const metadata = prepareAccountMetadata({
-      name: "Jane Doe",
+      name: localName,
     });
 
     const { uri } = await storageClient.uploadAsJson(metadata);
 
-    console.log(uri); // e.g., lens://4f91ca…
     const result = await createAccount({
       metadataUri: uri,
       localName,
-    }); // TODO upload metadata
+    });
     if (result.isOk()) {
       const txHash = result.value;
-      console.log("Account Created!");
-
       const account = await fetchAccount({ txHash });
       if (account.isOk()) {
         setAccount(account.value);
@@ -68,12 +65,12 @@ export const useCreateAccountForm = () => {
     }
     const authUser = await switchAccount({ account: account.account });
     if (authUser.isOk()) {
-      setAuth(authUser.value);
+      setSession(authUser.value);
       setView("welcome");
     } else {
       setView("chooseAccount");
     }
-  }, [account, setView, setAuth]);
+  }, [account, setView, setSession]);
 
   return {
     localName,

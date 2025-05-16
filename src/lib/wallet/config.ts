@@ -1,7 +1,7 @@
 import { getDefaultConfig } from "connectkit";
 import { createConfig, http } from "wagmi";
 import { lensTestnet } from "viem/chains";
-import { useAuthStore } from "../store/auth";
+import { connectWallet } from "../store/auth";
 
 const wagmiConfig = createConfig(
   getDefaultConfig({
@@ -35,7 +35,7 @@ wagmiConfig.subscribe(
   },
   (account) => {
     if (account) {
-      useAuthStore.getState().connectWallet(account);
+      connectWallet(account);
     }
   }
 );

@@ -1,6 +1,5 @@
 import { AvailableAccount, getAvailableAccounts } from "@/lib/pinkcollar/auth";
 import { AccountCard } from "./AccountCard";
-import { Role } from "@lens-protocol/client";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -31,17 +30,15 @@ export function AvailableAccounts() {
 
   return (
     <ul>
-      {accounts
-        .concat({
-          account: "",
-          role: Role.OnboardingUser,
-          username: "+ New Account",
-        })
-        .map((account) => (
-          <li key={account.account}>
-            <AccountCard account={account} />
-          </li>
-        ))}
+      {accounts.map((account) => (
+        <li key={account.account}>
+          <AccountCard account={account} />
+        </li>
+      ))}
+      <li>
+        {/* Placeholder for new account creation */}
+        <AccountCard />
+      </li>
     </ul>
   );
 }

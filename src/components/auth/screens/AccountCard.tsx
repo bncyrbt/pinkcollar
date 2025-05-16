@@ -7,29 +7,30 @@ import { useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 
 type AccountCardProps = {
-  account: AvailableAccount;
+  account?: AvailableAccount;
 };
 
 export function AccountCard({ account }: AccountCardProps) {
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
 
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const { setSession } = useAuthStore();
   const setView = useAuthDialogStore((state) => state.setView);
 
   const [inProgress, setInProgress] = useState(false);
 
   const onClick = async () => {
     setInProgress(true);
+    // onboarding sign Vs owner sign
     const result = await loginToAccount({
-      role: account.role,
-      account: account.account,
+      isOnboarding: !account,
+      account: account?.account,
       signer: address as string,
       signMessage: (message) => signMessageAsync({ message }),
     });
 
     if (result.isOk()) {
-      setAuth(result.value);
+      setSession(result.value);
       if (result.value.role === Role.OnboardingUser) {
         setView("createAccount");
       } else {
@@ -47,7 +48,9 @@ export function AccountCard({ account }: AccountCardProps) {
       }`}
     >
       <CardContent className="p-4 flex flex-col items-center space-y-4">
-        <span className="font-bold">{account.username}</span>
+        <span className="font-bold">
+          {account ? account.localName : "+ Create new"}
+        </span>
         {inProgress && (
           <>
             <span className="text-sm flex text-center">
