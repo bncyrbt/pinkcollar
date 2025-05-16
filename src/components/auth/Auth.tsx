@@ -16,7 +16,7 @@ export const Auth = () => {
   return (
     <div>
       <AuthDialog />
-      {!isAuthenticated ? <AuthButton /> : <ProfilePopoverMenu />}
+      {!isAuthenticated && <AuthButton />}
     </div>
   );
 };

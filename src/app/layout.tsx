@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Web3Provider } from "@/components/Web3Provider";
 import { Header } from "@/components/layout/Header";
+import { SidebarNavigation } from "@/components/layout/SidebarNavigation";
 
 export const metadata: Metadata = {
   title: "Pinkcollar",
@@ -17,33 +18,26 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Web3Provider>
-          <div className="h-screen w-screen overflow-hidden flex flex-col">
-            <Header />
+          <div className="w-full flex flex-row">
+            <div className="flex-4 flex flex-col border-0 border-black">
+              {/* Header */}
+              <div className="pl-16">
+                <Header />
+              </div>
 
-            <aside className="fixed top-20 right-0 w-20 h-[calc(100vh-80px)] border-l flex flex-col items-center justify-start gap-2 py-4 bg-background">
-              <NavIcon icon="👤" label="Profile" />
-              <NavIcon icon="🔍" label="Explore" />
-              <NavIcon icon="👕" label="Garments" />
-              <NavIcon icon="⚙️" label="Settings" />
-            </aside>
+              {/* Content */}
+              <div className="border-1 border-l-0 rounded-tl-none rounded-2xl border-black ">
+                {children}
+              </div>
+            </div>
 
-            <main className="mt-20 pr-20 h-[calc(100vh-80px)] overflow-y-auto px-6">
-              {children}
-            </main>
+            {/* Navigation */}
+            <div className=" flex-1 pl-1">
+              <SidebarNavigation />
+            </div>
           </div>
         </Web3Provider>
       </body>
     </html>
-  );
-}
-
-function NavIcon({ icon, label }: { icon: string; label: string }) {
-  return (
-    <button
-      className="w-12 h-12 rounded-md flex items-center justify-center border hover:bg-muted transition"
-      title={label}
-    >
-      <span className="text-xl">{icon}</span>
-    </button>
   );
 }
