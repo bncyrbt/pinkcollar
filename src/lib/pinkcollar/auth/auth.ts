@@ -7,11 +7,7 @@ import {
 } from "@lens-protocol/client/actions";
 import { evmAddress, uri } from "@lens-protocol/client";
 import { handleOperationWith } from "@lens-protocol/client/viem";
-import {
-  toAuthenticatedUser,
-  toAvailableAccount,
-  toChallengeRequest,
-} from "./mapper";
+import { toAuthenticatedUser, toAccount, toChallengeRequest } from "./mapper";
 import { AppConfig } from "../config";
 import { WalletClient } from "viem";
 
@@ -28,7 +24,7 @@ export function getAvailableAccounts(params: GetAvailableAccountsParams) {
         (item) =>
           item.account.username?.namespace === AppConfig.APP_NAMESPACE_CONTRACT
       )
-      .map((account) => toAvailableAccount(account.account))
+      .map((account) => toAccount(account.account))
   );
 }
 

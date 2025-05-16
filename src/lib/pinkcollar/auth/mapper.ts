@@ -17,9 +17,7 @@ type ToAvailableAccountParams = Pick<
   "__typename" | "address" | "metadata" | "username"
 >;
 
-export const toAvailableAccount = (
-  params: ToAvailableAccountParams
-): Account => {
+export const toAccount = (params: ToAvailableAccountParams): Account => {
   return {
     id: params.address,
     account: params.address,
