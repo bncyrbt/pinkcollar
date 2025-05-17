@@ -1,9 +1,8 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
 import { Account, loginToAccount, Role } from "@/lib/pinkcollar/auth";
 import { useAuthStore } from "@/lib/store/auth";
 import { useAuthDialogStore } from "@/lib/store/auth-dialog";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 
 type AccountCardProps = {
@@ -17,11 +16,8 @@ export function AccountCard({ account }: AccountCardProps) {
   const { setSession, isOnboarding } = useAuthStore();
   const setView = useAuthDialogStore((state) => state.setView);
 
-  const [inProgress, setInProgress] = useState(false);
-
   const onClick = useCallback(async () => {
-    setInProgress(true);
-    if (isOnboarding) {
+    if (isOnboarding && !account) {
       setView("createAccount");
       return;
     }
@@ -41,33 +37,26 @@ export function AccountCard({ account }: AccountCardProps) {
         setView("welcome");
       }
     }
-    setInProgress(false);
   }, [isOnboarding, address, account, setView, signMessageAsync, setSession]);
 
+  const name = account?.metadata.name ?? account?.localName ?? "";
+
   return (
-    <Card
-      onClick={onClick}
-      className={`cursor-pointer hover:shadow-md transition-shadow ${
-        inProgress ? "bg-amber-100" : " hover:bg-pink-100"
-      }`}
-    >
-      <CardContent className="p-4 flex flex-col items-center space-y-4">
-        <span className="font-bold">
-          {account ? account.localName : "+ Create new"}
-        </span>
-        {inProgress && (
-          <>
-            <span className="text-sm flex text-center">
-              👜✨ Step into the future, darling.
-              <br /> Authenticate your identity effortlessly—simply sign in with
-              your wallet! 💼🌟
-            </span>
-            <span className="text-sm font-semibold">
-              please sign with your wallet
-            </span>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <div onClick={onClick} className={`cursor-pointer`}>
+      <div className="p-2 flex flex-col">
+        <div className="flex flex-row gap-4 items-center">
+          <div
+            className={`${
+              account ? "" : "bg-pink-200 "
+            }w-12 h-12 rounded-full bg-gray-300 border-black border flex flex-row justify-center items-center`}
+          >
+            {account ? name.charAt(0).toUpperCase() : "+"}
+          </div>
+          <span className="text-base">
+            {account ? account.localName : "Create New Profile"}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }

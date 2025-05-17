@@ -5,10 +5,12 @@ export const CreateAccountScreen = () => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Sign up</DialogTitle>
-        <DialogDescription>Create your new account</DialogDescription>
+        <div className="border-b border-black pb-4">Create Account</div>
       </DialogHeader>
-      <div className="grid gap-4 py-4">
+      <div className="mt-2 flex flex-col gap-2">
+        <span className="text-lg font-bold">
+          Create your Pinkcollar account
+        </span>
         <CreateAccountForm />
       </div>
     </>

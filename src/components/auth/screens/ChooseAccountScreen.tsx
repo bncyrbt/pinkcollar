@@ -1,18 +1,16 @@
 import { AvailableAccounts } from "./AvailableAccounts";
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function ChooseAccountScreen() {
   return (
-    <>
+    <div className="">
       <DialogHeader>
         <DialogTitle>Login</DialogTitle>
-        <DialogDescription>Hey anon, who are you today?</DialogDescription>
       </DialogHeader>
-      <AvailableAccounts />
-    </>
+      <div className="mt-2 flex flex-col gap-2">
+        <span className="text-lg">Choose Pinkcollar account:</span>
+        <AvailableAccounts />
+      </div>
+    </div>
   );
 }
