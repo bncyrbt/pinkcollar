@@ -7,7 +7,7 @@ export function ChooseAccountScreen() {
       <DialogHeader>
         <DialogTitle>Login</DialogTitle>
       </DialogHeader>
-      <div className="mt-2 flex flex-col gap-2">
+      <div className="p-8 flex flex-col gap-2">
         <span className="text-lg">Choose Pinkcollar account:</span>
         <AvailableAccounts />
       </div>

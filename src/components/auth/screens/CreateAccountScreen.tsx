@@ -1,13 +1,11 @@
 import { CreateAccountForm } from "./CreateAccountForm";
-import { DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
+import { DialogHeader } from "../../ui/dialog";
 
 export const CreateAccountScreen = () => {
   return (
     <>
-      <DialogHeader>
-        <div className="border-b border-black pb-4">Create Account</div>
-      </DialogHeader>
-      <div className="mt-2 flex flex-col gap-2">
+      <DialogHeader>Create Account</DialogHeader>
+      <div className="px-12 py-8 flex flex-col gap-8">
         <span className="text-lg font-bold">
           Create your Pinkcollar account
         </span>

@@ -22,7 +22,9 @@ export function AuthDialog() {
 
   return (
     <Dialog open onOpenChange={closeDialog}>
-      <DialogContent className="sm:max-w-[425px]">{renderView()}</DialogContent>
+      <DialogContent className="sm:max-w-[425px] p-0">
+        {renderView()}
+      </DialogContent>
     </Dialog>
   );
 }
