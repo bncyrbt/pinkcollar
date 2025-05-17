@@ -8,12 +8,21 @@ import {
 import { useWalletStore } from "@/lib/store/wallet";
 import { fetchAccount } from "@/lib/pinkcollar/account";
 import { useAuthDialogStore } from "@/lib/store/auth-dialog";
-import { account as prepareAccountMetadata } from "@lens-protocol/metadata";
-import { storageClient } from "@/lib/storage/client";
 import { useAuthStore } from "@/lib/store/auth";
+import { useAccount } from "wagmi";
+import { createAccountMetadata } from "@/lib/storage/metadata";
 
 export const useCreateAccountForm = () => {
+  const { address } = useAccount();
+
   const [localName, setLocalName] = useState("");
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [profession, setProfession] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<File>();
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const [isCreating, setCreating] = useState(false);
   const [error, setError] = useState("");
   const [account, setAccount] = useState<Account>();
 
@@ -24,6 +33,10 @@ export const useCreateAccountForm = () => {
   const createAccount = useCreateAccount();
 
   const handleCreateAccount = useCallback(async () => {
+    if (!address) {
+      setError("Your wallet is not connected");
+      return;
+    }
     if (localName.length < 3) {
       setError("Username too short, at least 3 characters");
       return;
@@ -35,29 +48,38 @@ export const useCreateAccountForm = () => {
       return;
     }
 
-    const metadata = prepareAccountMetadata({
-      name: localName,
+    setError("");
+    setCreating(true);
+
+    const metadataUri = await createAccountMetadata({
+      name,
+      profession,
+      bio,
+      imageFile,
+      wallet: address,
     });
 
-    const { uri } = await storageClient.uploadAsJson(metadata);
-
+    console.log("Uploaded metadata: ", { metadataUri });
     const result = await createAccount({
-      metadataUri: uri,
+      metadataUri,
       localName,
     });
+    console.log("Create account result", { result });
+
     if (result.isOk()) {
       const txHash = result.value;
       const account = await fetchAccount({ txHash });
       if (account.isOk()) {
         setAccount(account.value);
-        setError("");
       } else {
         setError(account.error.message);
       }
     } else {
       setError(result.error.message);
     }
-  }, [localName, createAccount]);
+
+    setCreating(false);
+  }, [localName, name, address, bio, imageFile, profession, createAccount]);
 
   const handleSwitchAccount = useCallback(async () => {
     if (!account) {
@@ -72,11 +94,26 @@ export const useCreateAccountForm = () => {
     }
   }, [account, setView, setSession]);
 
+  const handleImageUpload = (file: File) => {
+    setImageFile(file);
+    setImagePreviewUrl(URL.createObjectURL(file));
+  };
+
   return {
     localName,
+    name,
+    bio,
+    profession,
     account,
     error,
     pendingAction,
+    imageFile,
+    imagePreviewUrl,
+    isCreating,
+    setProfession,
+    setBio,
+    setName,
+    handleImageUpload,
     setLocalName,
     handleCreateAccount,
     handleSwitchAccount,

@@ -7,6 +7,7 @@ import { ProfileContent } from "./ProfileContent";
 import { useEffect, useState } from "react";
 import { fetchAccount } from "@/lib/pinkcollar/account";
 import Spinner from "../ui/spinner";
+import { ProfileAvatar } from "./ProfileAvatar";
 
 export const Profile = ({ localName }: { localName: string }) => {
   const [account, setAccount] = useState<Account>();
@@ -35,7 +36,11 @@ export const Profile = ({ localName }: { localName: string }) => {
       <div className="pl-16 pr-4 flex flex-row py-8">
         {/* Avatar */}
         <div className="flex-1 flex-row">
-          <div className="w-28 h-28 rounded-full bg-gray-300 border border-black" />
+          <ProfileAvatar
+            src={account?.metadata.picture}
+            variant="large"
+            initials={name.charAt(0).toUpperCase()}
+          />
         </div>
 
         {isLoading || !account ? (

@@ -1,4 +1,5 @@
 "use client";
+import { ProfileAvatar } from "@/components/profile/ProfileAvatar";
 import { Account, loginToAccount, Role } from "@/lib/pinkcollar/auth";
 import { useAuthStore } from "@/lib/store/auth";
 import { useAuthDialogStore } from "@/lib/store/auth-dialog";
@@ -45,16 +46,17 @@ export function AccountCard({ account }: AccountCardProps) {
     <div onClick={onClick} className={`cursor-pointer`}>
       <div className="p-2 flex flex-col">
         <div className="flex flex-row gap-4 items-center">
-          <div
-            className={`${
-              account ? "" : "bg-pink-200 "
-            }w-12 h-12 rounded-full bg-gray-300 border-black border flex flex-row justify-center items-center`}
-          >
-            {account ? name.charAt(0).toUpperCase() : "+"}
+          <ProfileAvatar
+            src={account?.metadata.picture}
+            variant="small"
+            initials={name.charAt(0).toUpperCase()}
+          />
+          <div className="flex flex-col ">
+            <span className="text-base">{account?.metadata.name}</span>
+            <span className="text-small text-gray-400">
+              {account ? `@${account.localName}` : "Create New Profile"}
+            </span>
           </div>
-          <span className="text-base">
-            {account ? account.localName : "Create New Profile"}
-          </span>
         </div>
       </div>
     </div>

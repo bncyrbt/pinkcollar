@@ -1,4 +1,3 @@
-import { Button } from "../ui/button";
 import { BioLink } from "@/lib/pinkcollar/auth";
 
 type ProfileBioProp = {
@@ -10,17 +9,20 @@ type ProfileBioProp = {
 export const ProfileBio = ({ name, localName, bio, links }: ProfileBioProp) => {
   return (
     <div className="flex-6 flex-col pl-4 pt-1">
-      <div className=" text-2xl w-full">{name ?? "Nameless Creature"}</div>
-      <div className="text-base w-full">{localName ?? "Observer"}</div>
+      <div className=" text-2xl w-full">{name}</div>
+      <div className="text-base w-full">{localName}</div>
 
       <div className="text-base mt-4 w-full">{bio}</div>
 
       <div className="mt-4 flex flex-col items-start">
         {links?.map((lnk) => (
-          <a key={lnk.href} href={lnk.href} target="_blank">
-            <Button variant="link" className="p-0 text-base">
-              {lnk.caption}
-            </Button>
+          <a
+            key={lnk.href}
+            className="p-0 text-base"
+            href={lnk.href}
+            target="_blank"
+          >
+            {lnk.caption}
           </a>
         ))}
       </div>

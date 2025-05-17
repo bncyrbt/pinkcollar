@@ -26,6 +26,7 @@ export const toAccount = (params: ToAvailableAccountParams): Account => {
     metadata: {
       name: params.metadata?.name ?? "",
       bio: params.metadata?.bio ?? "",
+      picture: params.metadata?.picture,
       links: params.metadata?.attributes
         ?.filter((attr) => attr.key === AccountMetadataAttributesKeys.BioLinks)
         .map((link) => {

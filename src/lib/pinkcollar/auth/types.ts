@@ -19,6 +19,7 @@ export type Account = {
   metadata: {
     name?: string;
     bio?: string;
+    picture?: string;
     links: BioLink[];
   };
 };
