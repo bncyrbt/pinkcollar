@@ -39,6 +39,37 @@ export const CreateAccountForm = () => {
             disabled={!!account}
           />
         </div>
+
+        <div className="flex items-center">
+          <span className="text-muted-foreground border rounded-l px-3 py-2 bg-muted text-sm">
+            Name
+          </span>
+          <Input
+            id="username"
+            value={account?.username ?? localName}
+            onChange={(e) => setLocalName(e.target.value)}
+            placeholder="Name"
+            className="rounded-l-none"
+            required
+            disabled={!!account}
+          />
+        </div>
+
+        <div className="flex items-center">
+          <span className="text-muted-foreground border rounded-l px-3 py-2 bg-muted text-sm">
+            pinkcollar/
+          </span>
+          <Input
+            id="username"
+            value={account?.username ?? localName}
+            onChange={(e) => setLocalName(e.target.value)}
+            placeholder="yourname"
+            className="rounded-l-none"
+            required
+            disabled={!!account}
+          />
+        </div>
+
         {error && <p className="text-sm text-red-500">{error}</p>}
         {account && (
           <p className="text-sm text-green-600">

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Account, loginToAccount, Role } from "@/lib/pinkcollar/auth";
 import { useAuthStore } from "@/lib/store/auth";
 import { useAuthDialogStore } from "@/lib/store/auth-dialog";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 
 type AccountCardProps = {
@@ -14,13 +14,17 @@ export function AccountCard({ account }: AccountCardProps) {
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
 
-  const { setSession } = useAuthStore();
+  const { setSession, isOnboarding } = useAuthStore();
   const setView = useAuthDialogStore((state) => state.setView);
 
   const [inProgress, setInProgress] = useState(false);
 
-  const onClick = async () => {
+  const onClick = useCallback(async () => {
     setInProgress(true);
+    if (isOnboarding) {
+      setView("createAccount");
+      return;
+    }
     // onboarding sign Vs owner sign
     const result = await loginToAccount({
       isOnboarding: !account,
@@ -38,7 +42,7 @@ export function AccountCard({ account }: AccountCardProps) {
       }
     }
     setInProgress(false);
-  };
+  }, [isOnboarding, address, account, setView, signMessageAsync, setSession]);
 
   return (
     <Card
