@@ -1,20 +1,28 @@
 import { Button } from "../ui/button";
+import { BioLink } from "@/lib/pinkcollar/auth";
 
-export const ProfileBio = () => {
+type ProfileBioProp = {
+  name?: string;
+  localName?: string;
+  bio?: string;
+  links?: BioLink[];
+};
+export const ProfileBio = ({ name, localName, bio, links }: ProfileBioProp) => {
   return (
     <div className="flex-6 flex-col pl-4 pt-1">
-      <div className=" text-2xl w-full">Tomer even ari</div>
-      <div className="text-base w-full">Fashion Designer</div>
+      <div className=" text-2xl w-full">{name ?? "Nameless Creature"}</div>
+      <div className="text-base w-full">{localName ?? "Observer"}</div>
 
-      <div className="text-base mt-4 w-full">Enjoy it while you can</div>
+      <div className="text-base mt-4 w-full">{bio}</div>
 
       <div className="mt-4 flex flex-col items-start">
-        <Button variant="link" className="p-0 text-base">
-          theboss.io
-        </Button>
-        <Button variant="link" className="p-0 text-base">
-          instagram/tomerea
-        </Button>
+        {links?.map((lnk) => (
+          <a key={lnk.href} href={lnk.href} target="_blank">
+            <Button variant="link" className="p-0 text-base">
+              {lnk.caption}
+            </Button>
+          </a>
+        ))}
       </div>
     </div>
   );
