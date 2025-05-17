@@ -1,7 +1,6 @@
 import { getDefaultConfig } from "connectkit";
 import { createConfig, http } from "wagmi";
 import { lensTestnet } from "viem/chains";
-import { connectWallet } from "../store/auth";
 
 const wagmiConfig = createConfig(
   getDefaultConfig({
@@ -24,20 +23,6 @@ const wagmiConfig = createConfig(
     appUrl: "https://family.co", // your app's url
     appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
   })
-);
-
-wagmiConfig.subscribe(
-  (state) => {
-    const curConnection = state.current
-      ? state.connections.get(state.current)
-      : null;
-    return curConnection?.accounts?.[0] ?? null;
-  },
-  (account) => {
-    if (account) {
-      connectWallet(account);
-    }
-  }
 );
 
 export const walletConfig = wagmiConfig;

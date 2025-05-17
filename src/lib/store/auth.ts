@@ -13,33 +13,23 @@ type AuthState = {
   isOnboarding: boolean;
   isAuthenticated: boolean;
   session?: AuthenticatedUser;
-  connectedWallet?: string;
   logout: () => void;
-  connectWallet: (wallet: string) => void;
-  disconnectWallet: () => void;
   setSession: (session: AuthState["session"]) => void;
 };
 
-const store = create<AuthState>((set) => ({
-  status: "unauthenticated",
+const initialState = {
+  status: "unauthenticated" as AuthStatus,
   isInitializing: true,
   session: undefined,
-  connectedWallet: undefined,
   isAuthenticated: false,
   isOnboarding: false,
+};
+
+const store = create<AuthState>((set) => ({
+  ...initialState,
   // Actions
   logout: async () => {
-    set({
-      session: undefined,
-      status: "unauthenticated",
-      isInitializing: false,
-    });
-  },
-  connectWallet: (wallet: string) => {
-    set(() => ({ connectedWallet: wallet }));
-  },
-  disconnectWallet: () => {
-    set({ connectedWallet: undefined });
+    set({ ...initialState, isInitializing: false });
   },
   setSession: (session) => {
     const newStatus = session
@@ -61,7 +51,5 @@ const store = create<AuthState>((set) => ({
 export const logout = () => store.getState().logout();
 export const setSession = (session: AuthenticatedUser) =>
   store.getState().setSession(session);
-export const connectWallet = (wallet: string) =>
-  store.getState().connectWallet(wallet);
 
 export const useAuthStore = createTrackedSelector(store);
