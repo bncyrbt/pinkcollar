@@ -32,10 +32,10 @@ export const Profile = ({ localName }: { localName: string }) => {
   return (
     <main className="flex flex-col w-full h-full">
       {/* Header */}
-      <div className="h-[300px] pl-16 pr-4 flex flex-row py-8">
+      <div className="pl-16 pr-4 flex flex-row py-8">
         {/* Avatar */}
         <div className="flex-1 flex-row">
-          <div className="w-24 h-24 rounded-full bg-gray-300" />
+          <div className="w-28 h-28 rounded-full bg-gray-300 border border-black" />
         </div>
 
         {isLoading || !account ? (

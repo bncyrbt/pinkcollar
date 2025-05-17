@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createTrackedSelector } from "react-tracked";
-import { AuthenticatedUser, Role } from "../pinkcollar/auth";
+import { Account, AuthenticatedUser, Role } from "../pinkcollar/auth";
+import { fetchAccount } from "../pinkcollar/account";
 
 type AuthStatus =
   | "unauthenticated"
@@ -13,6 +14,7 @@ type AuthState = {
   isOnboarding: boolean;
   isAuthenticated: boolean;
   session?: AuthenticatedUser;
+  user?: Account;
   logout: () => void;
   setSession: (session: AuthState["session"]) => void;
 };
@@ -23,6 +25,7 @@ const initialState = {
   session: undefined,
   isAuthenticated: false,
   isOnboarding: false,
+  user: undefined,
 };
 
 const store = create<AuthState>((set) => ({
@@ -31,7 +34,7 @@ const store = create<AuthState>((set) => ({
   logout: async () => {
     set({ ...initialState, isInitializing: false });
   },
-  setSession: (session) => {
+  setSession: async (session) => {
     const newStatus = session
       ? session.role === Role.OnboardingUser
         ? "authenticatedOnboarding"
@@ -45,6 +48,12 @@ const store = create<AuthState>((set) => ({
       isInitializing: false,
       status: newStatus,
     });
+    if (newStatus === "authenticated") {
+      const user = await fetchAccount({ address: session?.address });
+      if (user.isOk()) {
+        set({ user: user.value });
+      }
+    }
   },
 }));
 
