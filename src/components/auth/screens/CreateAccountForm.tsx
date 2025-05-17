@@ -3,9 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useCreateAccountForm } from "@/hooks/useCreateAccountForm";
-import { SelectProfession } from "./SelectProfession";
 import { useRef } from "react";
 import { ProfileAvatar } from "@/components/profile/ProfileAvatar";
+import { ProfessionSelectCheckbox } from "@/components/forms/ProfessionSelectCheckbox";
+import { professionOptions } from "@/constants/professions";
 
 export const CreateAccountForm = () => {
   const {
@@ -20,6 +21,7 @@ export const CreateAccountForm = () => {
     setName,
     setBio,
     setLocalName,
+    setProfessions,
     handleCreateAccount,
     handleSwitchAccount,
     handleImageUpload,
@@ -82,7 +84,10 @@ export const CreateAccountForm = () => {
         />
 
         <Label htmlFor="profession">Profession</Label>
-        <SelectProfession disabled={disabled} />
+        <ProfessionSelectCheckbox
+          options={professionOptions}
+          onSelected={setProfessions}
+        />
 
         {/* Upload Image */}
         <div className="py-6 flex flex-row items-center gap-4">
@@ -108,7 +113,7 @@ export const CreateAccountForm = () => {
           />
         </div>
 
-        {error && <p className="text-sm text-red-500">{error}error message </p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
         {account && (
           <p className="text-sm text-pink-600">Your account is now ready</p>
         )}

@@ -7,6 +7,10 @@ export const AccountMetadataFragment = graphql(
       name
       bio
       picture
+      attributes {
+        key
+        value
+      }
     }
   `
 );

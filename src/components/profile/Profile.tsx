@@ -53,6 +53,7 @@ export const Profile = ({ localName }: { localName: string }) => {
           <ProfileBio
             name={name}
             bio={account.metadata.bio}
+            professions={account.metadata.professions}
             localName={`@${account.localName}`}
             links={account.metadata.links}
           />

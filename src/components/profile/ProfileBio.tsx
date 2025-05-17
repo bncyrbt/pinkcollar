@@ -1,16 +1,25 @@
-import { BioLink } from "@/lib/pinkcollar/auth";
+import { BioLink, Profession } from "@/lib/pinkcollar/auth";
 
 type ProfileBioProp = {
   name?: string;
   localName?: string;
   bio?: string;
   links?: BioLink[];
+  professions: Profession[];
 };
-export const ProfileBio = ({ name, localName, bio, links }: ProfileBioProp) => {
+export const ProfileBio = ({
+  name,
+  localName,
+  bio,
+  links,
+  professions,
+}: ProfileBioProp) => {
   return (
     <div className="flex-6 flex-col pl-4 pt-1">
-      <div className=" text-2xl w-full">{name}</div>
-      <div className="text-base w-full">{localName}</div>
+      <div className=" text-2xl w-full">{`${localName} | ${name}`}</div>
+      <div className="text-gray-600 underline">
+        {professions?.map((prf) => prf.label).join(", ")}
+      </div>
 
       <div className="text-base mt-4 w-full">{bio}</div>
 

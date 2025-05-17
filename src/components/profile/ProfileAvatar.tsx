@@ -9,11 +9,16 @@ export const ProfileAvatar = ({
   src?: string;
   variant: "large" | "medium" | "small";
 }) => {
-  const size = variant === "large" ? 28 : variant === "medium" ? 24 : 12;
+  const sizeClasses = {
+    large: "w-28 h-28",
+    medium: "w-24 h-24",
+    small: "w-12 h-12",
+  };
+
   return (
-    <Avatar className={`w-${size} h-${size} border border-black`}>
-      <AvatarImage src={src} />
-      <AvatarFallback className={`bg-gray-200 text-3xl`}>
+    <Avatar className={`${sizeClasses[variant]} border border-black`}>
+      <AvatarImage src={src} className="w-full h-full object-cover" />
+      <AvatarFallback className="bg-gray-200 text-3xl">
         {initials}
       </AvatarFallback>
     </Avatar>

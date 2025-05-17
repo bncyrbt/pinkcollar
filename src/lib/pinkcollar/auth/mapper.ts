@@ -8,9 +8,10 @@ import {
   Account,
   BioLink,
   LoginParams,
+  Profession,
 } from "./types";
 import { AppConfig } from "../config";
-import { isBioLink } from "./type-guard";
+import { isBioLink, isProfession } from "./type-guard";
 
 type ToAvailableAccountParams = Pick<
   LensAccount,
@@ -27,6 +28,19 @@ export const toAccount = (params: ToAvailableAccountParams): Account => {
       name: params.metadata?.name ?? "",
       bio: params.metadata?.bio ?? "",
       picture: params.metadata?.picture,
+      professions: params.metadata?.attributes
+        ?.filter(
+          (attr) => attr.key === AccountMetadataAttributesKeys.Profession
+        )
+        .map((profession) => {
+          try {
+            const parsed = JSON.parse(profession.value);
+            if (isProfession(parsed)) return parsed;
+          } catch {
+            return undefined;
+          }
+        })
+        .filter(Boolean) as Profession[],
       links: params.metadata?.attributes
         ?.filter((attr) => attr.key === AccountMetadataAttributesKeys.BioLinks)
         .map((link) => {

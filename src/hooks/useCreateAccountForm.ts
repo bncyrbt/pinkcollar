@@ -3,6 +3,7 @@ import { useCreateAccount } from "./auth";
 import {
   Account,
   isUsernameAvailable,
+  Profession,
   switchAccount,
 } from "@/lib/pinkcollar/auth";
 import { useWalletStore } from "@/lib/store/wallet";
@@ -18,7 +19,7 @@ export const useCreateAccountForm = () => {
   const [localName, setLocalName] = useState("");
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
-  const [profession, setProfession] = useState<string[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
   const [imageFile, setImageFile] = useState<File>();
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
@@ -53,13 +54,12 @@ export const useCreateAccountForm = () => {
 
     const metadataUri = await createAccountMetadata({
       name,
-      profession,
+      professions,
       bio,
       imageFile,
       wallet: address,
     });
 
-    console.log("Uploaded metadata: ", { metadataUri });
     const result = await createAccount({
       metadataUri,
       localName,
@@ -79,7 +79,7 @@ export const useCreateAccountForm = () => {
     }
 
     setCreating(false);
-  }, [localName, name, address, bio, imageFile, profession, createAccount]);
+  }, [localName, name, address, bio, imageFile, professions, createAccount]);
 
   const handleSwitchAccount = useCallback(async () => {
     if (!account) {
@@ -103,14 +103,14 @@ export const useCreateAccountForm = () => {
     localName,
     name,
     bio,
-    profession,
+    professions,
     account,
     error,
     pendingAction,
     imageFile,
     imagePreviewUrl,
     isCreating,
-    setProfession,
+    setProfessions,
     setBio,
     setName,
     handleImageUpload,

@@ -4,11 +4,18 @@ export { Role };
 
 export enum AccountMetadataAttributesKeys {
   BioLinks = "bio_link",
+  Profession = "profession",
 }
 
 export type BioLink = {
   caption: string;
   href: string;
+};
+
+export type Profession = {
+  id: string;
+  groupId: string;
+  label: string;
 };
 
 export type Account = {
@@ -20,6 +27,7 @@ export type Account = {
     name?: string;
     bio?: string;
     picture?: string;
+    professions: Profession[];
     links: BioLink[];
   };
 };
