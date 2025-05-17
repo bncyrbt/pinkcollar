@@ -11,9 +11,10 @@ export function AuthButton() {
 
   return (
     <Button
+      className="h-12 w-12 font-extrabold cursor-pointer border-3 border-pink-300"
       onClick={() => (isConnected ? openDialog() : setConnectModalOpen(true))}
     >
-      {isConnected ? "Login" : "Connect Wallet"}
+      {isConnected ? "L" : "L"}
     </Button>
   );
 }

@@ -15,7 +15,6 @@ export const Header = () => {
       </Link>
       <div className="flex flex-row">
         <SearchBar />
-        <Auth />
       </div>
     </header>
   );
