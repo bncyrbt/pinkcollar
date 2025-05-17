@@ -7,7 +7,7 @@ import {
 } from "@/lib/pinkcollar/auth";
 import { useWalletStore } from "@/lib/store/wallet";
 import { fetchAccount } from "@/lib/pinkcollar/account";
-import { useAuthDialogStore } from "@/lib/store/authDialog";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 import { account as prepareAccountMetadata } from "@lens-protocol/metadata";
 import { storageClient } from "@/lib/storage/client";
 import { useAuthStore } from "@/lib/store/auth";

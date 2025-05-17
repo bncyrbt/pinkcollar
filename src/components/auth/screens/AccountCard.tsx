@@ -2,7 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Account, loginToAccount, Role } from "@/lib/pinkcollar/auth";
 import { useAuthStore } from "@/lib/store/auth";
-import { useAuthDialogStore } from "@/lib/store/authDialog";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 import { useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 

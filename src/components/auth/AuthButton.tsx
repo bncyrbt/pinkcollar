@@ -1,4 +1,4 @@
-import { useAuthDialogStore } from "@/lib/store/authDialog";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 import { useModal } from "connectkit";
 import { useAccount } from "wagmi";
 import { Button } from "../ui/button";

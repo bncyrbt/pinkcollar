@@ -1,4 +1,4 @@
-import { useAuthDialogStore } from "@/lib/store/authDialog";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { CreateAccountScreen } from "./screens/CreateAccountScreen";
 import { ChooseAccountScreen } from "./screens/ChooseAccountScreen";

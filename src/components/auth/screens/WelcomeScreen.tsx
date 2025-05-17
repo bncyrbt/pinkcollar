@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useAuthDialogStore } from "@/lib/store/authDialog";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 
 export const WelcomeScreen = () => {
   const { closeDialog } = useAuthDialogStore();
