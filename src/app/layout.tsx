@@ -18,21 +18,21 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Web3Provider>
-          <div className="w-full flex flex-row">
-            <div className="flex-4 flex flex-col border-0 border-black">
+          <div className="min-h-screen w-full flex flex-row">
+            <div className=" flex-4 flex flex-col border-0 border-black">
               {/* Header */}
-              <div className="pl-16">
+              <div className="h-20 pl-16">
                 <Header />
               </div>
 
               {/* Content */}
-              <div className="border-1 border-l-0 rounded-tl-none rounded-2xl border-black ">
+              <div className="flex-2 border-1 border-l-0 rounded-tl-none rounded-2xl border-black ">
                 {children}
               </div>
             </div>
 
             {/* Navigation */}
-            <div className=" flex-1 pl-1">
+            <div className="flex-1 pl-1">
               <SidebarNavigation />
             </div>
           </div>

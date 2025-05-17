@@ -13,9 +13,7 @@ export const ProfileStats = () => {
 
         {/* Stats Bottom */}
         <div className="flex flex-row justify-end gap-4">
-          <Button className="bg-pink-200 border-1 border-black text-black">
-            + Follow
-          </Button>
+          <Button>+ Follow</Button>
           <Button variant="secondary" className="border-1 border-black">
             Contact
           </Button>

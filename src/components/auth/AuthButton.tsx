@@ -1,7 +1,7 @@
 import { useAuthDialogStore } from "@/lib/store/authDialog";
-import { Button } from "../ui/button";
 import { useModal } from "connectkit";
 import { useAccount } from "wagmi";
+import { Button } from "../ui/button";
 
 export function AuthButton() {
   const { isConnected } = useAccount();
@@ -11,10 +11,9 @@ export function AuthButton() {
 
   return (
     <Button
-      className="h-12 w-12 font-extrabold cursor-pointer border-3 border-pink-300"
       onClick={() => (isConnected ? openDialog() : setConnectModalOpen(true))}
     >
-      {isConnected ? "L" : "L"}
+      Login
     </Button>
   );
 }
