@@ -13,7 +13,7 @@ export const PageContentLayout = ({ main, aside }: PageContentLayoutProps) => {
         <div className="flex-2">
           <Block header="" main="" />
         </div>
-        <div className="flex-7">{main}</div>
+        <div className="flex-4">{main}</div>
         <div className="w-1/3 flex-3">{aside}</div>
       </div>
     </>

@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default: "shadow-xs bg-pink-200 border border-black text-black",
         tag: "shadow-xs bg-gray-200 border border-black text-black",
         outline:
-          " border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          " border border-black bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         destructive: "text-red-500 hover:underline",
       },
       size: {

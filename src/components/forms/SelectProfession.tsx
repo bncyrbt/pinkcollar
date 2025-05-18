@@ -9,10 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SelectProps } from "@radix-ui/react-select";
 
-export function SelectProfession() {
+export function SelectProfession(props: SelectProps) {
   return (
-    <Select>
+    <Select {...props}>
       <SelectTrigger className="w-[180px] border border-black rounded-lg">
         <SelectValue placeholder="Select one or more" />
       </SelectTrigger>

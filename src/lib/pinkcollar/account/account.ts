@@ -1,7 +1,10 @@
 import { getLensPublicClient } from "@/lib/lens/client";
-import { fetchAccount as lensFetchAccount } from "@lens-protocol/client/actions";
+import {
+  fetchAccount as lensFetchAccount,
+  fetchAccounts as lensFetchAccounts,
+} from "@lens-protocol/client/actions";
 import { toAccount } from "../auth";
-import { never } from "@lens-protocol/client";
+import { evmAddress, never, PageSize } from "@lens-protocol/client";
 import { AppConfig } from "../config";
 
 export type FetchAccountParams = {
@@ -20,4 +23,19 @@ export function fetchAccount(params: FetchAccountParams) {
         }
       : undefined,
   }).map((res) => (res ? toAccount(res) : never()));
+}
+
+type FetchAccountsParams = {
+  localNameQuery: string;
+};
+export function fetchAccountsByQuery({ localNameQuery }: FetchAccountsParams) {
+  return lensFetchAccounts(getLensPublicClient(), {
+    pageSize: PageSize.Fifty,
+    filter: {
+      searchBy: {
+        localNameQuery,
+        namespaces: [evmAddress(AppConfig.APP_NAMESPACE_CONTRACT)],
+      },
+    },
+  }).map((res) => res.items.map((item) => toAccount(item)));
 }

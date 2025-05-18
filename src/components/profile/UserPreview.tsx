@@ -1,7 +1,7 @@
 import { ProfileAvatar } from "./ProfileAvatar";
 
 type UserPreviewProps = {
-  avatar: string;
+  avatar?: string;
   main: string;
   sub?: string;
 };

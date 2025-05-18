@@ -20,3 +20,8 @@ export const professionOptions: Profession[] = [
   { id: "fashion-boutique", groupId: "Business", label: "Fashion Boutique" },
   { id: "brand-owner", groupId: "Business", label: "Brand Owner" },
 ];
+
+export const getProfession = (id: string) =>
+  professionOptions.find((p) => p.id === id);
+
+export const getProfessions = () => professionOptions;
