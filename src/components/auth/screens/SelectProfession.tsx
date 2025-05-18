@@ -13,7 +13,7 @@ import {
 export function SelectProfession() {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] border border-black rounded-lg">
         <SelectValue placeholder="Select one or more" />
       </SelectTrigger>
       <SelectContent>

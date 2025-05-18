@@ -74,7 +74,7 @@ export const CreateAccountForm = () => {
           disabled={disabled}
         />
 
-        <Label htmlFor="name">Bio (Optional)</Label>
+        <Label htmlFor="bio">Bio (Optional)</Label>
         <Input
           id="bio"
           placeholder="What's your thing?"
