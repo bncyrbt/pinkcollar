@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div className="p2"></div>;
+  return <div className="text-5xl">Home Screen</div>;
 }

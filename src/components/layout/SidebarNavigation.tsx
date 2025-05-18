@@ -11,7 +11,7 @@ export const SidebarNavigation = () => {
     <div className="sticky top-0 h-screen flex flex-col justify-between">
       <aside className=" w-24 flex flex-col items-center justify-start gap-5 py-6 ">
         <Auth />
-        <NavIcon src="/icons/notification.svg" to="/notifications" />
+        <NavIcon src="/icons/notification.svg" to={AppRoutes.Notifications} />
         <NavIcon src="/icons/home.svg" to={AppRoutes.Home} />
         <NavIcon src="/icons/explore.svg" to={AppRoutes.Explore} />
         <NavIcon src="/icons/upload.svg" to={AppRoutes.Create} />
