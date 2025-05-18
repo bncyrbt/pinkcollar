@@ -10,7 +10,7 @@ type BlockProps = {
 
 export const Block: FC<BlockProps> = ({ header, main, className }) => {
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("flex flex-col border-b border-black", className)}>
       <div className="px-8 flex items-center min-h-14">{header}</div>
       <Divider />
       <div className="p-8">{main}</div>

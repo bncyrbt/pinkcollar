@@ -77,9 +77,7 @@ export const AddContributorsForm = ({ onSubmit }: AddContributorsFormProps) => {
 
           <div>
             <div className="space-y-2">
-              <Label className="font-bold" htmlFor="search">
-                Assign Role
-              </Label>
+              <Label>Assign Role</Label>
               <div className="flex flex-row gap-2">
                 <SelectProfession
                   value={profession?.id}
@@ -88,7 +86,6 @@ export const AddContributorsForm = ({ onSubmit }: AddContributorsFormProps) => {
                   required
                 />
                 <Button
-                  type="submit"
                   variant="default"
                   className="flex-1"
                   disabled={!canAdd}

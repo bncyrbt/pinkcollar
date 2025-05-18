@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Block } from "./Block";
 
 type PageContentLayoutProps = {
   main?: ReactNode;
@@ -10,11 +9,8 @@ export const PageContentLayout = ({ main, aside }: PageContentLayoutProps) => {
   return (
     <>
       <div className="w-full h-full flex flex-row">
-        <div className="flex-2">
-          <Block header="" main="" />
-        </div>
-        <div className="flex-4">{main}</div>
-        <div className="w-1/3 flex-3">{aside}</div>
+        <div className="flex-2 border-r border-black">{main}</div>
+        <div className="w-1/3 flex-1">{aside}</div>
       </div>
     </>
   );
