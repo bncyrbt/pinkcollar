@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <Web3Provider>
           <div className="min-h-screen w-full flex flex-row">
-            <div className=" flex-4 flex flex-col border-0 border-black">
+            <div className=" flex-6 flex flex-col border-0 border-black">
               {/* Header */}
               <div className="h-20 pl-16">
                 <Header />

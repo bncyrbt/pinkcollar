@@ -20,7 +20,9 @@ export const AddContributorsForm = () => {
           </Label>
           <div className="flex flex-row gap-2">
             <SelectProfession />
-            <Button>Add</Button>
+            <Button variant="default" className="flex-1">
+              Add
+            </Button>
           </div>
         </div>
       </div>
