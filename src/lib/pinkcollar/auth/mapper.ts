@@ -24,6 +24,7 @@ export const toAccount = (params: ToAvailableAccountParams): Account => {
     account: params.address,
     localName: params.username?.localName ?? "",
     username: params.username?.value ?? "",
+    displayName: params?.metadata?.name ?? params.username?.localName ?? "N/A",
     metadata: {
       name: params.metadata?.name ?? "",
       bio: params.metadata?.bio ?? "",

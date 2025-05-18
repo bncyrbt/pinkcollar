@@ -1,11 +1,12 @@
 import { ContributionSummary } from "../contribution/ContributionSummary";
 import { Feed } from "../Feed/Feed";
 import { Block } from "../layout/Block";
+import { PageContentLayout } from "../layout/PageContentLayout";
 
 export const ProfileContent = () => {
   return (
-    <Block
-      title={
+    <PageContentLayout
+      navBlock={
         <div className="flex flex-row gap-16 pl-16">
           <div className="ml-8">Main Collection</div>
           <div className="ml-8">Creations</div>
@@ -24,6 +25,6 @@ export const ProfileContent = () => {
           </Block>
         </div>
       </div>
-    </Block>
+    </PageContentLayout>
   );
 };

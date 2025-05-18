@@ -23,6 +23,7 @@ export type Account = {
   account: string;
   username: string;
   localName: string;
+  displayName: string;
   metadata: {
     name?: string;
     bio?: string;

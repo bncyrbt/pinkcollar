@@ -1,16 +1,16 @@
-import { FC, PropsWithChildren, ReactElement } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 
 type BlockProps = PropsWithChildren<{
-  title?: string | ReactElement;
+  title?: string | ReactNode;
 }>;
 export const Block: FC<BlockProps> = ({ title, children }) => {
   return (
     <div className="flex flex-col">
-      <div className="text-lg py-4">
+      <div>
         <span>{title}</span>
       </div>
       <div className="w-full h-px bg-black" />
-      <div className="text-base">
+      <div>
         <span>{children}</span>
       </div>
     </div>
