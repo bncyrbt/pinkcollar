@@ -1,6 +1,7 @@
 export const AppRoutes = {
   Home: "/",
   Explore: "/explore",
-  Dashboard: "/dashboard",
+  Create: "/create",
+  Contributions: "/contribution",
   Profile: (username: string) => `/u/${username}`,
 } as const;

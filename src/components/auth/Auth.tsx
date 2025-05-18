@@ -2,6 +2,7 @@ import { useAuthStore } from "@/lib/store/auth";
 import { AuthButton } from "./AuthButton";
 import { AuthDialog } from "./AuthDialog";
 import { useAccount } from "wagmi";
+import ProfilePopoverMenu from "../ProfilePopoverMenu";
 
 export const Auth = () => {
   const { isAuthenticated, isInitializing } = useAuthStore();
@@ -12,7 +13,7 @@ export const Auth = () => {
   return (
     <div>
       <AuthDialog />
-      {show && <AuthButton />}
+      {show ? <AuthButton /> : <ProfilePopoverMenu />}
     </div>
   );
 };

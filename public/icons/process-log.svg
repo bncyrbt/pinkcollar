@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x=".433" y=".451" width="31.116" height="31.116" rx="7.386" ry="7.386" transform="translate(32.018 .036) rotate(90.065)" fill="none" stroke="#010101" stroke-miterlimit="10"/>
+  <line x1="15.991" y1=".464" x2="15.991" y2="31.554" fill="none" stroke="#010101" stroke-dasharray="3.457" stroke-linejoin="round"/>
+  <circle cx="15.991" cy="16.009" r="3.025" fill="#010101" stroke="#010101" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

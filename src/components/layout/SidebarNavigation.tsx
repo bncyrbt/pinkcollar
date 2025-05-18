@@ -1,21 +1,24 @@
 "use client";
-import { useAuthStore } from "@/lib/store/auth";
-import ProfilePopoverMenu from "../ProfilePopoverMenu";
 import { Auth } from "../auth/Auth";
 import { Button } from "../ui/button";
 import { handleLogout } from "@/actions/auth";
+import Image from "next/image";
+import Link from "next/link";
+import { AppRoutes } from "@/routes";
 
 export const SidebarNavigation = () => {
-  const { isAuthenticated } = useAuthStore();
   return (
     <div className="sticky top-0 h-screen flex flex-col justify-between">
       <aside className=" w-24 flex flex-col items-center justify-start gap-5 py-6 ">
-        {isAuthenticated && <ProfilePopoverMenu />}
         <Auth />
-        <NavIcon icon="" label="Profile" />
-        <NavIcon icon="" label="Explore" />
-        <NavIcon icon="" label="Garments" />
-        <NavIcon icon="⚙️" label="Settings" />
+        <NavIcon src="/icons/notification.svg" to="/notifications" />
+        <NavIcon src="/icons/home.svg" to={AppRoutes.Home} />
+        <NavIcon src="/icons/explore.svg" to={AppRoutes.Explore} />
+        <NavIcon src="/icons/upload.svg" to={AppRoutes.Create} />
+        <NavIcon
+          src="/icons/contribution-menu.svg"
+          to={AppRoutes.Contributions}
+        />
       </aside>
       <aside className="py-4">
         <Button onClick={handleLogout} variant="destructive">
@@ -26,13 +29,17 @@ export const SidebarNavigation = () => {
   );
 };
 
-const NavIcon = ({ icon, label }: { icon: string; label: string }) => {
+type NavIconProps = {
+  src: string; // path to the .svg file
+  to: string;
+};
+
+const NavIcon = ({ to = "", src }: NavIconProps) => {
   return (
-    <button
-      className="w-12 h-12 rounded-sm flex items-center justify-center border border-black hover:bg-muted"
-      title={label}
-    >
-      <span className="text-xl">{icon}</span>
-    </button>
+    <Link href={to}>
+      <Image src={src} alt="nav-icon" width={32} height={32} />
+    </Link>
   );
 };
+
+export default NavIcon;
