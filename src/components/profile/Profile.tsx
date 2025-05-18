@@ -8,13 +8,10 @@ export const Profile = ({ localName }: { localName: string }) => {
   const { data } = useAccount({ localName });
 
   return (
-    <main className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full">
       <ProfileHeader account={data} />
       <Divider />
-
-      <div className="flex-1">
-        <ProfileContent />
-      </div>
-    </main>
+      <ProfileContent />
+    </div>
   );
 };

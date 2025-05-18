@@ -1,19 +1,17 @@
-import { PropsWithChildren, ReactNode } from "react";
-import { Block } from "../layout/Block";
+import { ReactNode } from "react";
 
-type PageContentLayoutProps = PropsWithChildren<{
-  navBlock: ReactNode;
-}>;
+type PageContentLayoutProps = {
+  main?: ReactNode;
+  aside?: ReactNode;
+};
 
-export const PageContentLayout = ({
-  navBlock,
-  children,
-}: PageContentLayoutProps) => {
+export const PageContentLayout = ({ main, aside }: PageContentLayoutProps) => {
   return (
-    <Block title={navBlock}>
-      <div className="flex flex-row pl-16">
-        <div>{children}</div>
+    <>
+      <div className="w-full h-full flex flex-row">
+        <div className="flex-1">{main}</div>
+        <div className="w-1/3">{aside}</div>
       </div>
-    </Block>
+    </>
   );
 };

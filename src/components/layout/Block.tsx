@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren, ReactNode } from "react";
+import { Divider } from "../ui/divider";
 
 type BlockProps = PropsWithChildren<{
   title?: string | ReactNode;
@@ -6,13 +7,9 @@ type BlockProps = PropsWithChildren<{
 export const Block: FC<BlockProps> = ({ title, children }) => {
   return (
     <div className="flex flex-col">
-      <div>
-        <span>{title}</span>
-      </div>
-      <div className="w-full h-px bg-black" />
-      <div>
-        <span>{children}</span>
-      </div>
+      <div className="p-4">{title}</div>
+      <Divider />
+      <div className="p-4">{children}</div>
     </div>
   );
 };
