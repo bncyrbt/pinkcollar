@@ -4,11 +4,16 @@ import { ImagePreviewer } from "../common/ImagePreviewer";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { Tag } from "./tags/Tag";
 
 // TODO: handle upload, connect to data
 
 export const PostInfoContent = () => {
   const [images, setImages] = useState<string[]>([]);
+  const [text, setText] = useState("");
+
+  const tags = text.match(/#[\w-]+/g) || [];
+
   return (
     <form>
       <div className="flex flex-row">
@@ -22,7 +27,16 @@ export const PostInfoContent = () => {
           </div>
           <div className="space-y-2">
             <Label> Description</Label>
-            <Textarea placeholder="Type your message here." />
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Type your message here."
+            />
+          </div>
+          <div className="flex flex-row flex-wrap gap-2">
+            {tags.map((t) => (
+              <Tag key={t} value={t} />
+            ))}
           </div>
         </div>
       </div>
