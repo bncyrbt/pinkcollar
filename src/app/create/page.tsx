@@ -1,5 +1,5 @@
-import { CreatePostPageContent } from "@/components/post/CreatePostPageContent";
+import { CreatePost } from "@/components/post/CreatePost";
 
 export default function CreatePostPage() {
-  return <CreatePostPageContent />;
+  return <CreatePost />;
 }

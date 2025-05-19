@@ -1,9 +1,9 @@
 import { AddContributorsBlock } from "../contribution/AddContributorsBlock";
 import { PageContentLayout } from "../layout/PageContentLayout";
 import { Divider } from "../ui/divider";
-import { PostInfoBlock } from "./PostInfoBlock";
+import { PostMainBlock } from "./main/PostMainBlock";
 
-export const CreatePostPageContent = () => {
+export const CreatePost = () => {
   return (
     <div className="flex flex-col w-full h-full">
       <CreatePostHeader />
@@ -11,7 +11,7 @@ export const CreatePostPageContent = () => {
       <PageContentLayout
         main={
           <>
-            <PostInfoBlock />
+            <PostMainBlock />
           </>
         }
         aside={

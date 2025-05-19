@@ -1,8 +1,8 @@
-import { Block } from "../layout/Block";
-import { ProfileAvatar } from "../profile/ProfileAvatar";
-import { PostInfoContent } from "./PostInfoContent";
+import { Block } from "../../layout/Block";
+import { ProfileAvatar } from "../../profile/ProfileAvatar";
+import { PostMainBlockContent } from "./PostMainBlockContent";
 
-export const PostInfoBlock = () => {
+export const PostMainBlock = () => {
   return (
     <Block
       className="border-b border-black"
@@ -15,7 +15,7 @@ export const PostInfoBlock = () => {
           </div>
         </div>
       }
-      main={<PostInfoContent />}
+      main={<PostMainBlockContent />}
     />
   );
 };

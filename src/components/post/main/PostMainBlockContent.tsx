@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import { ImagePreviewer } from "../common/ImagePreviewer";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
-import { Tag } from "./tags/Tag";
+import { ImagePreviewer } from "../../common/ImagePreviewer";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import { Textarea } from "../../ui/textarea";
+import { Tag } from "../tags/Tag";
 
 // TODO: handle upload, connect to data
 
-export const PostInfoContent = () => {
+export const PostMainBlockContent = () => {
   const [images, setImages] = useState<string[]>([]);
   const [text, setText] = useState("");
 
