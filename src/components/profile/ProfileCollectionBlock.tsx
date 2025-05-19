@@ -6,7 +6,7 @@ export const ProfileCollectionBlock = () => {
     <Block
       header={
         <div className="flex flex-row gap-16 pl-16">
-          <div className="ml-8">Main Collection</div>
+          <div className="ml-8">Curated</div>
           <div className="ml-8">Creations</div>
           <div className="ml-8">Collected</div>
         </div>
