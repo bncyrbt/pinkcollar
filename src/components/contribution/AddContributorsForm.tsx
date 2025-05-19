@@ -10,17 +10,15 @@ import { SelectContributor } from "./SelectContributor";
 import { Divider } from "../ui/divider";
 import { usePostStore } from "@/lib/store/post";
 
-export const AddContributorsForm = ({
-  editMode = false,
-}: {
-  editMode?: boolean;
-}) => {
-  const { contributors, addContributor, removeContributor } = usePostStore();
+export const AddContributorsForm = () => {
+  const { contributors, isEditMode, addContributor, removeContributor } =
+    usePostStore();
 
   const [profession, setProfession] = useState<Profession>();
   const [contributor, setContributor] = useState<Account>();
 
   const canAdd = Boolean(profession && contributor);
+  const editMode = isEditMode;
 
   const addContributorHandler = useCallback(() => {
     if (profession && contributor) {

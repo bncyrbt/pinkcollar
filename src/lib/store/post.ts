@@ -19,12 +19,14 @@ type PostState = {
   publishOptions: {
     option: PublishOption;
   };
+  isEditMode: boolean;
   //status: {};
   addContributor: (contributor: PostContributor) => void;
   removeContributor: (id: string) => void;
   setPostTitle: (title: string) => void;
   setPostText: (text: string) => void;
   setPublishOption: (option: PublishOption) => void;
+  toggleEditMode: () => void;
 };
 
 const initialState = {
@@ -38,6 +40,7 @@ const initialState = {
     option: PublishOption.MainCollection,
   },
   //  status: {},
+  isEditMode: true,
 };
 
 const store = create<PostState>((set) => ({
@@ -73,6 +76,7 @@ const store = create<PostState>((set) => ({
       },
     });
   },
+  toggleEditMode: () => set((state) => ({ isEditMode: !state.isEditMode })),
 }));
 
 export const usePostStore = createTrackedSelector(store);

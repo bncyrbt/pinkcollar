@@ -11,7 +11,7 @@ import { usePostStore } from "@/lib/store/post";
 
 export const PostMainBlockContent = () => {
   const [images, setImages] = useState<string[]>([]);
-  const { post, setPostText, setPostTitle } = usePostStore();
+  const { post, isEditMode, setPostText, setPostTitle } = usePostStore();
 
   const tags = post.text.match(/#[\w-]+/g) || [];
 
@@ -22,21 +22,28 @@ export const PostMainBlockContent = () => {
           <ImagePreviewer images={images} onAddImage={() => setImages([])} />
         </div>
         <div className="flex-1 flex flex-col gap-2">
-          <div className="space-y-2">
-            <Label>Title</Label>
-            <Input
-              value={post.title}
-              onChange={(e) => setPostTitle(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label> Description</Label>
-            <Textarea
-              value={post.text}
-              onChange={(e) => setPostText(e.target.value)}
-              placeholder="Type your message here."
-            />
-          </div>
+          {!isEditMode ? (
+            <span>{post.text}</span>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <Label>Title</Label>
+                <Input
+                  value={post.title}
+                  onChange={(e) => setPostTitle(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label> Description</Label>
+                <Textarea
+                  value={post.text}
+                  onChange={(e) => setPostText(e.target.value)}
+                  placeholder="Type your message here."
+                />
+              </div>
+            </>
+          )}
           <div className="flex flex-row flex-wrap gap-2">
             {tags.map((t) => (
               <Tag key={t} value={t} />
