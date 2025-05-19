@@ -26,7 +26,7 @@ export default function RootLayout({
               </div>
 
               {/* Content */}
-              <div className="flex-2 border-1 border-l-0 rounded-tl-none rounded-2xl border-black ">
+              <div className="pb-64 flex-2 border-1 border-l-0 rounded-tl-none rounded-2xl border-black border-b-0 ">
                 {children}
               </div>
             </div>
