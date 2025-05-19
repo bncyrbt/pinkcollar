@@ -8,6 +8,8 @@ export type Post = {
   contributionGroup: ContributionGroup;
 };
 
+export type ContributorDraft = Pick<Contributor, "contributor" | "role">;
+
 export type Contributor = {
   id: string; // Unique identifier of the relation
   contributor: Account;
@@ -15,9 +17,8 @@ export type Contributor = {
   addedAt: number;
 };
 
-type ContributionGroup = {
+export type ContributionGroup = {
   id: string;
   name: string;
-  description: string;
   members: Contributor[];
 };

@@ -7,6 +7,7 @@ export type WalletActionType =
   | "createComment"
   | "login"
   | "createAccount"
+  | "createContributionGroup"
   | null;
 
 type WalletState = {

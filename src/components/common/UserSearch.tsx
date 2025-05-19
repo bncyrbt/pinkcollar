@@ -61,7 +61,10 @@ export const UserSearch: React.FC<Props> = ({
               <UserPreview
                 avatar={user.metadata.picture}
                 main={user.displayName}
-                sub={user.metadata.professions?.join(", ")}
+                sub={user.metadata.professions
+                  ?.map((p) => p.label)
+                  .slice(0, 2)
+                  .join(", ")}
               />
             </div>
           ))}

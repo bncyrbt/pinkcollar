@@ -12,9 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PublishOption } from "@/lib/store/post";
+import { usePublishPost } from "@/hooks/usePublishPost";
+import { PublishOption, usePostStore } from "@/lib/store/post";
 
 export const PostPublishBlockContent = () => {
+  const { contributionGroup } = usePostStore();
+  const { publishPost } = usePublishPost();
+
   return (
     <form className="flex flex-col gap-4">
       <RadioGroup className="" defaultValue={PublishOption.MainCollection}>
@@ -51,7 +55,16 @@ export const PostPublishBlockContent = () => {
         </div>
       </RadioGroup>
       <Divider />
-      <Button>Publish</Button>
+      <div>
+        {contributionGroup && (
+          <span className="font-bold">
+            Your Contribution Group has created!
+          </span>
+        )}
+      </div>
+      <Button type="button" onClick={publishPost}>
+        Publish
+      </Button>
     </form>
   );
 };

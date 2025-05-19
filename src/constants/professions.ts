@@ -22,6 +22,10 @@ export const professionOptions: Profession[] = [
 ];
 
 export const getProfession = (id: string) =>
-  professionOptions.find((p) => p.id === id);
+  professionOptions.find((p) => p.id === id) ?? {
+    id: "unknown",
+    groupId: "system",
+    label: "n/a",
+  };
 
 export const getProfessions = () => professionOptions;
