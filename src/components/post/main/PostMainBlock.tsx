@@ -1,8 +1,11 @@
+"use client";
+import { usePostStore } from "@/lib/store/post";
 import { Block } from "../../layout/Block";
 import { ProfileAvatar } from "../../profile/ProfileAvatar";
 import { PostMainBlockContent } from "./PostMainBlockContent";
 
 export const PostMainBlock = () => {
+  const { post } = usePostStore();
   return (
     <Block
       className="border-b border-black"
@@ -11,7 +14,7 @@ export const PostMainBlock = () => {
           <ProfileAvatar variant="small" />
           <div className="text-xl">
             <span className="font-bold">Tomer Even Ari</span>
-            <span>/Suzi Blazer</span>
+            <span>{` / ${post.title}`}</span>
           </div>
         </div>
       }

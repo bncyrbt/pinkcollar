@@ -5,14 +5,15 @@ import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Textarea } from "../../ui/textarea";
 import { Tag } from "../tags/Tag";
+import { usePostStore } from "@/lib/store/post";
 
 // TODO: handle upload, connect to data
 
 export const PostMainBlockContent = () => {
   const [images, setImages] = useState<string[]>([]);
-  const [text, setText] = useState("");
+  const { post, setPostText, setPostTitle } = usePostStore();
 
-  const tags = text.match(/#[\w-]+/g) || [];
+  const tags = post.text.match(/#[\w-]+/g) || [];
 
   return (
     <form>
@@ -23,13 +24,16 @@ export const PostMainBlockContent = () => {
         <div className="flex-1 flex flex-col gap-2">
           <div className="space-y-2">
             <Label>Title</Label>
-            <Input />
+            <Input
+              value={post.title}
+              onChange={(e) => setPostTitle(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label> Description</Label>
             <Textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              value={post.text}
+              onChange={(e) => setPostText(e.target.value)}
               placeholder="Type your message here."
             />
           </div>
