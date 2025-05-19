@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { Contributor } from "../pinkcollar/post/types";
 import { createTrackedSelector } from "react-tracked";
 
-enum PublishOption {
+export enum PublishOption {
   MainCollection = "main_collection",
   CustomCollection = "custom_collection",
 }

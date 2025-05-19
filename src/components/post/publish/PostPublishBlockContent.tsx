@@ -9,38 +9,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { PublishOption, usePostStore } from "@/lib/store/post";
 
 export const PostPublishBlockContent = () => {
-  const [selected, setSelected] = useState("default");
+  const {
+    publishOptions: { option },
+    setPublishOption,
+  } = usePostStore();
   return (
     <form>
       <RadioGroup
-        value={selected}
-        onValueChange={(val) => setSelected(val)}
+        value={option}
+        onValueChange={(val) => setPublishOption(val as PublishOption)}
         className="space-y-4"
-        defaultValue="comfortable"
+        defaultValue={PublishOption.MainCollection}
       >
         <div className="flex items-center space-x-2">
-          <RadioGroupItem value="default" id="r1" />
+          <RadioGroupItem value={PublishOption.MainCollection} id="r1" />
           <Label
             className="font-normal"
             htmlFor="r1"
-          >{`Publish to "Created" (Default)`}</Label>
+          >{`Publish to Main Collection (Default)`}</Label>
         </div>
         <div className="flex items-center space-x-2">
-          <RadioGroupItem value="main-collection" id="r2" />
-          <Label className="font-normal" htmlFor="r2">
-            Add to Main Collection
-          </Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="custom-collection" id="r3" />
+          <RadioGroupItem value={PublishOption.CustomCollection} id="r3" />
           <div className="flex flex-row items-center gap-4">
             <Label className="font-normal" htmlFor="r3">
               Custom
             </Label>
-            <Select disabled={selected !== "custom-collection"}>
+            <Select disabled={option !== PublishOption.CustomCollection}>
               <SelectTrigger className=" border border-black rounded-lg">
                 <SelectValue placeholder="Add to Custom Collection" />
               </SelectTrigger>
