@@ -3,45 +3,29 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { SelectProfession } from "../forms/SelectProfession";
 import { Account, Profession } from "@/lib/pinkcollar/auth";
-import { FormEventHandler, useState } from "react";
+import { useCallback, useState } from "react";
 import { getProfession } from "@/constants/professions";
 import { ContributorPreview } from "./ContributortPreview";
 import { SelectContributor } from "./SelectContributor";
 import { Divider } from "../ui/divider";
+import { usePostStore } from "@/lib/store/post";
 
-type PostContributor = {
-  contributor: Account;
-  role: Profession;
-};
+export const AddContributorsForm = () => {
+  const { contributors, addContributor, removeContributor } = usePostStore();
 
-type AddContributorsFormProps = {
-  onSubmit?: (selected: PostContributor[]) => void;
-};
-export const AddContributorsForm = ({ onSubmit }: AddContributorsFormProps) => {
   const [profession, setProfession] = useState<Profession>();
   const [contributor, setContributor] = useState<Account>();
-
-  const [contributors, setContributors] = useState<PostContributor[]>([]);
-
   const [editMode, setEditMode] = useState(false);
 
   const canAdd = Boolean(profession && contributor);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    onSubmit?.(contributors);
-  };
-
-  const addContributor = () => {
+  const addContributorHandler = useCallback(() => {
     if (profession && contributor) {
-      setContributors((state) => [...state, { contributor, role: profession }]);
+      addContributor({ contributor, role: profession });
       setContributor(undefined);
       setProfession(undefined);
     }
-  };
-  const removeContributor = (id: string) => {
-    setContributors((state) => state.filter((c) => c.contributor.id !== id));
-  };
+  }, [profession, contributor, addContributor]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -52,7 +36,7 @@ export const AddContributorsForm = ({ onSubmit }: AddContributorsFormProps) => {
         {editMode ? "Done" : "Add Contributors"}
       </Button>
       {editMode && (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4">
           <Divider />
           <div className="flex flex-row gap-2 items-end">
             <div className="flex-3 space-y-2">
@@ -89,7 +73,7 @@ export const AddContributorsForm = ({ onSubmit }: AddContributorsFormProps) => {
                   variant="default"
                   className="flex-1"
                   disabled={!canAdd}
-                  onClick={addContributor}
+                  onClick={addContributorHandler}
                 >
                   Add
                 </Button>
