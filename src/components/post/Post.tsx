@@ -1,4 +1,4 @@
-import { AddContributorsBlock } from "../contribution/AddContributorsBlock";
+import { AddContributorsBlock } from "../contribution/ContributorsBlock";
 import { PageContentLayout } from "../layout/PageContentLayout";
 import { Divider } from "../ui/divider";
 import { PostMainBlock } from "./main/PostMainBlock";
