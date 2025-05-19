@@ -10,12 +10,15 @@ import { SelectContributor } from "./SelectContributor";
 import { Divider } from "../ui/divider";
 import { usePostStore } from "@/lib/store/post";
 
-export const AddContributorsForm = () => {
+export const AddContributorsForm = ({
+  editMode = false,
+}: {
+  editMode?: boolean;
+}) => {
   const { contributors, addContributor, removeContributor } = usePostStore();
 
   const [profession, setProfession] = useState<Profession>();
   const [contributor, setContributor] = useState<Account>();
-  const [editMode, setEditMode] = useState(false);
 
   const canAdd = Boolean(profession && contributor);
 
@@ -29,15 +32,8 @@ export const AddContributorsForm = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Button
-        variant={editMode ? "outline" : "default"}
-        onClick={() => setEditMode(!editMode)}
-      >
-        {editMode ? "Done" : "Add Contributors"}
-      </Button>
       {editMode && (
         <form className="flex flex-col gap-4">
-          <Divider />
           <div className="flex flex-row gap-2 items-end">
             <div className="flex-3 space-y-2">
               <Label className="font-bold" htmlFor="search">
@@ -63,15 +59,19 @@ export const AddContributorsForm = () => {
             <div className="space-y-2">
               <Label>Assign Role</Label>
               <div className="flex flex-row gap-2">
-                <SelectProfession
-                  value={profession?.id}
-                  onValueChange={(id) => id && setProfession(getProfession(id))}
-                  disabled={!contributor}
-                  required
-                />
+                <div className="w-full">
+                  <SelectProfession
+                    value={profession?.id}
+                    onValueChange={(id) =>
+                      id && setProfession(getProfession(id))
+                    }
+                    disabled={!contributor}
+                    required
+                  />
+                </div>
                 <Button
                   variant="default"
-                  className="flex-1"
+                  className="max-w-24 flex-1"
                   disabled={!canAdd}
                   onClick={addContributorHandler}
                 >

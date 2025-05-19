@@ -14,7 +14,7 @@ import { SelectProps } from "@radix-ui/react-select";
 export function SelectProfession(props: SelectProps) {
   return (
     <Select {...props}>
-      <SelectTrigger className="w-[180px] border border-black rounded-lg">
+      <SelectTrigger className="border border-black rounded-lg">
         <SelectValue placeholder="Select one or more" />
       </SelectTrigger>
       <SelectContent>

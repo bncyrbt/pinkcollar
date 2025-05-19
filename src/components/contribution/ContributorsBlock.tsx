@@ -7,7 +7,7 @@ export const AddContributorsBlock = () => (
     header={<div className="font-bold">Contributors </div>}
     main={
       <>
-        <AddContributorsForm />
+        <AddContributorsForm editMode />
       </>
     }
   />
