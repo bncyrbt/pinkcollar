@@ -14,14 +14,37 @@ type PostMainBlockContentProps = {
   post?: Post;
 };
 export const PostMainBlockContent = ({ post }: PostMainBlockContentProps) => {
-  const [images, setImages] = useState<string[]>([]);
-  const { title, text, tags, setPostText, setPostTitle } = usePostStore();
+  const {
+    title,
+    text,
+    tags,
+    images,
+    addImage,
+    removeImage,
+    setPostText,
+    setPostTitle,
+  } = usePostStore();
+
+  const handleAddImage = (image: File) => {
+    addImage({
+      imageFile: image,
+      previewUrl: URL.createObjectURL(image),
+    });
+  };
+
+  const imagesToRender = post
+    ? post.images
+    : images.map((img) => img.previewUrl);
 
   return (
     <form>
       <div className="flex flex-row">
         <div className="px-8 flex-1 flex flex-row justify-end">
-          <ImagePreviewer images={images} onAddImage={() => setImages([])} />
+          <ImagePreviewer
+            images={imagesToRender}
+            onRemoveImage={removeImage}
+            onAddImage={handleAddImage}
+          />
         </div>
         <div className="flex-1 flex flex-col gap-2">
           {!post ? (

@@ -4,7 +4,6 @@ import {
 } from "@/actions/post";
 import { useAuthStore } from "@/lib/store/auth";
 import { usePostStore } from "@/lib/store/post";
-import { useState } from "react";
 import { useWalletClient } from "wagmi";
 
 export const usePublishPost = () => {
@@ -15,6 +14,7 @@ export const usePublishPost = () => {
     text,
     title,
     contributors,
+    images,
     setContributionGroup,
     setPublished,
     startPublish,
@@ -47,6 +47,7 @@ export const usePublishPost = () => {
         tags,
         text,
         title,
+        images: images.map((img) => img.imageFile),
       },
     });
 

@@ -11,13 +11,18 @@ export enum PublishOption {
   CustomCollection = "custom_collection",
 }
 
+type ImageItem = {
+  imageFile: File;
+  previewUrl: string;
+};
+
 type PostState = {
   publishedPost?: Post;
   inProgress: boolean;
   title: string;
   text: string;
   tags: string[];
-  //metadata: {};
+  images: ImageItem[];
   contributors: ContributorDraft[];
   publishOptions: {
     option: PublishOption;
@@ -32,6 +37,9 @@ type PostState = {
   startPublish: () => void;
   setContributionGroup: (group: ContributionGroup) => void;
   setPublished: (post: Post) => void;
+  addImage: (images: ImageItem) => void;
+  removeImage: (previewUrl: string) => void;
+  reset: () => void;
 };
 
 const initialState = {
@@ -40,6 +48,7 @@ const initialState = {
   title: "",
   text: "",
   tags: [],
+  images: [],
   contributors: [],
   publishOptions: {
     option: PublishOption.MainCollection,
@@ -79,6 +88,14 @@ const store = create<PostState>((set) => ({
   },
   setContributionGroup: (group) => set({ contributionGroup: group }),
   setPublished: (post) => set({ ...initialState, publishedPost: post }),
+  addImage: (image) =>
+    set((state) => ({ ...state, images: [...state.images, image] })),
+  removeImage: (previewUrl) =>
+    set((state) => ({
+      ...state,
+      images: state.images.filter((img) => img.previewUrl === previewUrl),
+    })),
+  reset: () => set({ ...initialState }),
 }));
 
 export const setContributionGroup = (group: ContributionGroup) =>

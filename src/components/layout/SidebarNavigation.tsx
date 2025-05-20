@@ -6,11 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { AppRoutes } from "@/routes";
 import { useAuthStore } from "@/lib/store/auth";
-import Spinner from "../ui/spinner";
 import { ConnectKitButton } from "connectkit";
 
 export const SidebarNavigation = () => {
-  const { isAuthenticated, isInitializing } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   return (
     <div className="sticky top-0 h-screen flex flex-col justify-between">
       <aside className=" w-24 flex flex-col items-center justify-start gap-5 py-6 ">

@@ -10,6 +10,7 @@ export type PostDraft = Pick<
   "title" | "text" | "tags" | "contributors"
 > & {
   contributionGroupId: string;
+  images: File[];
 };
 
 export type Post = {
@@ -17,6 +18,7 @@ export type Post = {
   title: string;
   text: string;
   tags: string[];
+  images: string[];
   creator: Account;
   contributors: Contributor[];
   contributionGroup?: ContributionGroup;

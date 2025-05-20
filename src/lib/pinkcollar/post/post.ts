@@ -120,6 +120,10 @@ function toPost(post: AnyPost): ResultAsync<Post, Error> {
             }
           }
 
+          const imagesUris = post.metadata.attachments.map(
+            (attach) => attach.item
+          );
+
           return {
             id: post.id as string,
             creator: toAccount(post.author),
@@ -128,6 +132,7 @@ function toPost(post: AnyPost): ResultAsync<Post, Error> {
             text: post.metadata.content,
             contributionGroup,
             contributors: contributionGroup?.members ?? [],
+            images: imagesUris,
           } satisfies Post;
         }
       }

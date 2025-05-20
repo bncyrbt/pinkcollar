@@ -9,6 +9,8 @@ import {
   account,
   article,
   group,
+  image,
+  MediaImageMimeType,
   MetadataAttributeType,
 } from "@lens-protocol/metadata";
 import { AppConfig } from "../pinkcollar/config";
@@ -158,10 +160,24 @@ type CreatePostMetadataParams = {
   post: PostDraft;
 };
 export async function createPostMetadata({ post }: CreatePostMetadataParams) {
+  const imagesUris: string[] = [];
+  for (const imageFile of post.images) {
+    const { uri } = await storageClient.uploadFile(imageFile, {
+      acl: immutable(AppConfig.APP_CHAIN.id),
+    });
+    imagesUris.push(uri);
+  }
+
   const metadata = article({
     content: post.text,
     title: post.title,
     tags: post.tags,
+    attachments: [
+      ...imagesUris.map((uri) => ({
+        item: uri,
+        type: MediaImageMimeType.JPEG,
+      })),
+    ],
     attributes: [
       {
         key: PostMetadataAttributesKeys.ContributorsGroup,
