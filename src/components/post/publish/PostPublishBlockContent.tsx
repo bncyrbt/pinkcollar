@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/select";
 import Spinner from "@/components/ui/spinner";
 import { usePublishPost } from "@/hooks/usePublishPost";
+import { useAuthStore } from "@/lib/store/auth";
+import { useAuthDialogStore } from "@/lib/store/auth-dialog";
 import { PublishOption, usePostStore } from "@/lib/store/post";
 import { AppRoutes } from "@/routes";
 import Link from "next/link";
@@ -21,6 +23,8 @@ import Link from "next/link";
 export const PostPublishBlockContent = () => {
   const { inProgress, publishedPost, contributionGroup } = usePostStore();
   const { publishPost } = usePublishPost();
+  const { openDialog } = useAuthDialogStore();
+  const { isAuthenticated } = useAuthStore();
 
   return (
     <form className="flex flex-col gap-4">
@@ -76,8 +80,12 @@ export const PostPublishBlockContent = () => {
         )}
       </div>
       {!publishedPost && (
-        <Button type="button" onClick={publishPost} disabled={inProgress}>
-          Publish
+        <Button
+          type="button"
+          onClick={() => (isAuthenticated ? publishPost() : openDialog())}
+          disabled={inProgress}
+        >
+          {isAuthenticated ? "Publish" : "Login"}
         </Button>
       )}
     </form>

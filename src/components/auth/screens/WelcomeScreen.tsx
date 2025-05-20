@@ -15,7 +15,7 @@ export const WelcomeScreen = () => {
         <DialogTitle>Welcome</DialogTitle>
         <DialogDescription>Hey motek, glade you came</DialogDescription>
       </DialogHeader>
-      <DialogFooter>
+      <DialogFooter className="px-4 pb-3">
         <Button onClick={closeDialog}>Close</Button>
       </DialogFooter>
     </>

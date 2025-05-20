@@ -4,6 +4,7 @@ import { PageContentLayout } from "../layout/PageContentLayout";
 import { Divider } from "../ui/divider";
 import { PostMainBlock } from "./main/PostMainBlock";
 import { PostContributorsBlock } from "./contributors/PostContributorsBlock";
+import { PostInteractionBlock } from "./interactions/PostInteractionBlock";
 
 export const ViewPost = ({ postId }: { postId: string }) => {
   const { data, isLoading } = usePost({ postId });
@@ -23,6 +24,7 @@ export const ViewPost = ({ postId }: { postId: string }) => {
         main={
           <>
             <PostMainBlock post={data} />
+            <PostInteractionBlock post={data} />
           </>
         }
         aside={

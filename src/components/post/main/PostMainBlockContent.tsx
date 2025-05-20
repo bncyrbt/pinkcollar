@@ -41,6 +41,7 @@ export const PostMainBlockContent = ({ post }: PostMainBlockContentProps) => {
       <div className="flex flex-row">
         <div className="px-8 flex-1 flex flex-row justify-end">
           <ImagePreviewer
+            editable={!post}
             images={imagesToRender}
             onRemoveImage={removeImage}
             onAddImage={handleAddImage}

@@ -1,7 +1,17 @@
-export const FeedViewPost = ({ title }: { title: string }) => {
+import Image from "next/image";
+import { Post } from "@/lib/pinkcollar/post";
+
+export const FeedViewPost = ({ post }: { post: Post }) => {
   return (
-    <div className="flex items-center justify-center h-64 w-64 border-1 bg-gray-200 border-gray-600">
-      {title}
+    <div className="relative h-64 w-64 border border-gray-600 bg-gray-200 overflow-hidden">
+      {!!post.images.length && (
+        <Image
+          src={post.images[0]}
+          alt={post.title || "Post image"}
+          fill
+          className="object-cover"
+        />
+      )}
     </div>
   );
 };
