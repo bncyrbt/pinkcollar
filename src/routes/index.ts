@@ -5,4 +5,5 @@ export const AppRoutes = {
   Contributions: "/contributions",
   Notifications: "/notifications",
   Profile: (username: string) => `/u/${username}`,
+  Post: (pid: string) => `/post/${pid}`,
 } as const;

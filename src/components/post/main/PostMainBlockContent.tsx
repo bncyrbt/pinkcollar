@@ -6,14 +6,16 @@ import { Label } from "../../ui/label";
 import { Textarea } from "../../ui/textarea";
 import { Tag } from "../tags/Tag";
 import { usePostStore } from "@/lib/store/post";
+import { Post } from "@/lib/pinkcollar/post";
 
 // TODO: handle upload, connect to data
 
-export const PostMainBlockContent = () => {
+type PostMainBlockContentProps = {
+  post?: Post;
+};
+export const PostMainBlockContent = ({ post }: PostMainBlockContentProps) => {
   const [images, setImages] = useState<string[]>([]);
-  const { post, isEditMode, setPostText, setPostTitle } = usePostStore();
-
-  const tags = post.text.match(/#[\w-]+/g) || [];
+  const { title, text, tags, setPostText, setPostTitle } = usePostStore();
 
   return (
     <form>
@@ -22,14 +24,12 @@ export const PostMainBlockContent = () => {
           <ImagePreviewer images={images} onAddImage={() => setImages([])} />
         </div>
         <div className="flex-1 flex flex-col gap-2">
-          {!isEditMode ? (
-            <span>{post.text}</span>
-          ) : (
+          {!post ? (
             <>
               <div className="space-y-2">
                 <Label>Title</Label>
                 <Input
-                  value={post.title}
+                  value={title}
                   onChange={(e) => setPostTitle(e.target.value)}
                 />
               </div>
@@ -37,15 +37,17 @@ export const PostMainBlockContent = () => {
               <div className="space-y-2">
                 <Label> Description</Label>
                 <Textarea
-                  value={post.text}
+                  value={text}
                   onChange={(e) => setPostText(e.target.value)}
                   placeholder="Type your message here."
                 />
               </div>
             </>
+          ) : (
+            <span>{post.text}</span>
           )}
           <div className="flex flex-row flex-wrap gap-2">
-            {tags.map((t) => (
+            {(post ? post.tags : tags).map((t) => (
               <Tag key={t} value={t} />
             ))}
           </div>

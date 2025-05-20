@@ -12,11 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Spinner from "@/components/ui/spinner";
 import { usePublishPost } from "@/hooks/usePublishPost";
 import { PublishOption, usePostStore } from "@/lib/store/post";
+import { AppRoutes } from "@/routes";
+import Link from "next/link";
 
 export const PostPublishBlockContent = () => {
-  const { contributionGroup } = usePostStore();
+  const { inProgress, publishedPost, contributionGroup } = usePostStore();
   const { publishPost } = usePublishPost();
 
   return (
@@ -56,15 +59,27 @@ export const PostPublishBlockContent = () => {
       </RadioGroup>
       <Divider />
       <div>
+        {inProgress && <Spinner />}
         {contributionGroup && (
           <span className="font-bold">
-            Your Contribution Group has created!
+            Your Contribution Group has been created!
           </span>
         )}
+
+        {publishedPost && (
+          <div className="flex flex-row items-center justify-around">
+            <span className="font-bold">and your post as well.</span>
+            <Link href={AppRoutes.Post(publishedPost.id)}>
+              <Button type="button">View Post</Button>
+            </Link>
+          </div>
+        )}
       </div>
-      <Button type="button" onClick={publishPost}>
-        Publish
-      </Button>
+      {!publishedPost && (
+        <Button type="button" onClick={publishPost} disabled={inProgress}>
+          Publish
+        </Button>
+      )}
     </form>
   );
 };

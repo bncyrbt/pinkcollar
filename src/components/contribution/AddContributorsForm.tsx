@@ -11,14 +11,12 @@ import { Divider } from "../ui/divider";
 import { usePostStore } from "@/lib/store/post";
 
 export const AddContributorsForm = () => {
-  const { contributors, isEditMode, addContributor, removeContributor } =
-    usePostStore();
+  const { contributors, addContributor, removeContributor } = usePostStore();
 
   const [profession, setProfession] = useState<Profession>();
   const [contributor, setContributor] = useState<Account>();
 
   const canAdd = Boolean(profession && contributor);
-  const editMode = isEditMode;
 
   const addContributorHandler = useCallback(() => {
     if (profession && contributor) {
@@ -30,57 +28,49 @@ export const AddContributorsForm = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {editMode && (
-        <form className="flex flex-col gap-4">
-          <div className="flex flex-row gap-2 items-end">
-            <div className="flex-3 space-y-2">
-              <Label className="font-bold" htmlFor="search">
-                Add Contributors
-              </Label>
-              <SelectContributor
-                value={contributor}
-                onSelect={setContributor}
-              />
-            </div>
-            {contributor && (
-              <Button
-                className="flex-1"
-                variant="outline"
-                onClick={() => setContributor(undefined)}
-              >
-                Clear
-              </Button>
-            )}
+      <form className="flex flex-col gap-4">
+        <div className="flex flex-row gap-2 items-end">
+          <div className="flex-3 space-y-2">
+            <Label className="font-bold" htmlFor="search">
+              Add Contributors
+            </Label>
+            <SelectContributor value={contributor} onSelect={setContributor} />
           </div>
+          {contributor && (
+            <Button
+              className="flex-1"
+              variant="outline"
+              onClick={() => setContributor(undefined)}
+            >
+              Clear
+            </Button>
+          )}
+        </div>
 
-          <div>
-            <div className="space-y-2">
-              <Label>Assign Role</Label>
-              <div className="flex flex-row gap-2">
-                <div className="w-full">
-                  <SelectProfession
-                    value={profession?.id}
-                    onValueChange={(id) =>
-                      id && setProfession(getProfession(id))
-                    }
-                    disabled={!contributor}
-                    required
-                  />
-                </div>
-                <Button
-                  variant="default"
-                  className="max-w-24 flex-1"
-                  disabled={!canAdd}
-                  onClick={addContributorHandler}
-                >
-                  Add
-                </Button>
+        <div>
+          <div className="space-y-2">
+            <Label>Assign Role</Label>
+            <div className="flex flex-row gap-2">
+              <div className="w-full">
+                <SelectProfession
+                  value={profession?.id}
+                  onValueChange={(id) => id && setProfession(getProfession(id))}
+                  disabled={!contributor}
+                  required
+                />
               </div>
+              <Button
+                variant="default"
+                className="max-w-24 flex-1"
+                disabled={!canAdd}
+                onClick={addContributorHandler}
+              >
+                Add
+              </Button>
             </div>
           </div>
-        </form>
-      )}
-
+        </div>
+      </form>
       {!!contributors.length && <Divider />}
       <div className="flex flex-col gap-4">
         {contributors.map((c) => (
@@ -92,14 +82,13 @@ export const AddContributorsForm = () => {
               accountId={c.contributor.id}
               professionId={c.role.id}
             />
-            {editMode && (
-              <Button
-                variant="outline"
-                onClick={removeContributor.bind(null, c.contributor.id)}
-              >
-                remove
-              </Button>
-            )}
+
+            <Button
+              variant="outline"
+              onClick={removeContributor.bind(null, c.contributor.id)}
+            >
+              remove
+            </Button>
           </div>
         ))}
       </div>

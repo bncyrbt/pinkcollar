@@ -1,5 +1,9 @@
 import { create } from "zustand";
-import { ContributionGroup, ContributorDraft } from "../pinkcollar/post/types";
+import {
+  ContributionGroup,
+  ContributorDraft,
+  Post,
+} from "../pinkcollar/post/types";
 import { createTrackedSelector } from "react-tracked";
 
 export enum PublishOption {
@@ -8,17 +12,16 @@ export enum PublishOption {
 }
 
 type PostState = {
-  post: {
-    title: string;
-    text: string;
-    tags: string[];
-  };
+  publishedPost?: Post;
+  inProgress: boolean;
+  title: string;
+  text: string;
+  tags: string[];
   //metadata: {};
   contributors: ContributorDraft[];
   publishOptions: {
     option: PublishOption;
   };
-  isEditMode: boolean;
   contributionGroup?: ContributionGroup;
   //status: {};
   addContributor: (contributor: ContributorDraft) => void;
@@ -26,22 +29,22 @@ type PostState = {
   setPostTitle: (title: string) => void;
   setPostText: (text: string) => void;
   setPublishOption: (option: PublishOption) => void;
-  toggleEditMode: () => void;
+  startPublish: () => void;
   setContributionGroup: (group: ContributionGroup) => void;
+  setPublished: (post: Post) => void;
 };
 
 const initialState = {
-  post: {
-    title: "",
-    text: "",
-    tags: [],
-  },
+  publishedPost: undefined,
+  inProgress: false,
+  title: "",
+  text: "",
+  tags: [],
   contributors: [],
   publishOptions: {
     option: PublishOption.MainCollection,
   },
-  //  status: {},
-  isEditMode: true,
+
   contributionGroup: undefined,
 };
 
@@ -56,21 +59,17 @@ const store = create<PostState>((set) => ({
     }));
   },
   setPostTitle: (title: string) => {
-    set((state) => ({
-      post: {
-        ...state.post,
-        title,
-      },
-    }));
+    set({
+      title,
+    });
   },
   setPostText: (text: string) => {
-    set((state) => ({
-      post: {
-        ...state.post,
-        text,
-      },
-    }));
+    set({
+      tags: text.match(/#[\w-]+/g) || [],
+      text,
+    });
   },
+  startPublish: () => set({ inProgress: true }),
   setPublishOption: (option: PublishOption) => {
     set({
       publishOptions: {
@@ -78,8 +77,8 @@ const store = create<PostState>((set) => ({
       },
     });
   },
-  toggleEditMode: () => set((state) => ({ isEditMode: !state.isEditMode })),
   setContributionGroup: (group) => set({ contributionGroup: group }),
+  setPublished: (post) => set({ ...initialState, publishedPost: post }),
 }));
 
 export const setContributionGroup = (group: ContributionGroup) =>

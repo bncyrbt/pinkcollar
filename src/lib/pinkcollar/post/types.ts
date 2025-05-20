@@ -1,11 +1,25 @@
 import { Account, Profession } from "../auth";
 
+export enum PostMetadataAttributesKeys {
+  ContributorsGroup = "contributors-group",
+  OriginalMembers = "original-members",
+}
+
+export type PostDraft = Pick<
+  Post,
+  "title" | "text" | "tags" | "contributors"
+> & {
+  contributionGroupId: string;
+};
+
 export type Post = {
   id: string;
   title: string;
   text: string;
+  tags: string[];
+  creator: Account;
   contributors: Contributor[];
-  contributionGroup: ContributionGroup;
+  contributionGroup?: ContributionGroup;
 };
 
 export type ContributorDraft = Pick<Contributor, "contributor" | "role">;

@@ -4,23 +4,29 @@ import { Block } from "../../layout/Block";
 import { ProfileAvatar } from "../../profile/ProfileAvatar";
 import { PostMainBlockContent } from "./PostMainBlockContent";
 import { useAuthStore } from "@/lib/store/auth";
+import { Post } from "@/lib/pinkcollar/post";
 
-export const PostMainBlock = () => {
-  const { post } = usePostStore();
+export const PostMainBlock = ({ post }: { post?: Post }) => {
+  const { title } = usePostStore();
   const { user } = useAuthStore();
   return (
     <Block
       className="border-b border-black"
       header={
         <div className="pl-16 py-4 flex flex-row items-center gap-4">
-          <ProfileAvatar src={user?.metadata.picture} variant="small" />
+          <ProfileAvatar
+            src={post ? post.creator?.metadata.picture : user?.metadata.picture}
+            variant="small"
+          />
           <div className="text-xl">
-            <span className="font-bold">Tomer Even Ari</span>
-            <span>{` / ${post.title}`}</span>
+            <span className="font-bold">
+              {post ? post?.creator.displayName : user?.displayName}
+            </span>
+            <span>{` / ${post ? post.title : title}`}</span>
           </div>
         </div>
       }
-      main={<PostMainBlockContent />}
+      main={<PostMainBlockContent post={post} />}
     />
   );
 };

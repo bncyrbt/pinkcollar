@@ -1,13 +1,24 @@
 import { storageClient } from "@/lib/storage/client";
-import { lensAccountOnly, walletOnly } from "@lens-chain/storage-client";
+import {
+  immutable,
+  lensAccountOnly,
+  walletOnly,
+} from "@lens-chain/storage-client";
 import { evmAddress, GroupMetadata, ResultAsync } from "@lens-protocol/client";
-import { account, group, MetadataAttributeType } from "@lens-protocol/metadata";
+import {
+  account,
+  article,
+  group,
+  MetadataAttributeType,
+} from "@lens-protocol/metadata";
 import { AppConfig } from "../pinkcollar/config";
 import { AccountMetadataAttributesKeys, Profession } from "../pinkcollar/auth";
 import {
   ContributionGroup,
   Contributor,
   ContributorDraft,
+  PostDraft,
+  PostMetadataAttributesKeys,
 } from "../pinkcollar/post/types";
 import { generateEntityId } from "../pinkcollar/utils";
 import { fetchAccount } from "../pinkcollar/account";
@@ -82,12 +93,16 @@ export async function createContributionGroupMetadata({
   return uploadMetadataResponse.uri;
 }
 
-export function resolveContributionGroupMetadata(
-  metadata: GroupMetadata
-): ResultAsync<ContributionGroup, Error> {
+export function resolveContributionGroupMetadata({
+  metadata,
+  groupId,
+}: {
+  groupId: string;
+  metadata: GroupMetadata;
+}): ResultAsync<ContributionGroup, Error> {
   return ResultAsync.fromPromise(
     (async () => {
-      const { id, name, description } = metadata;
+      const { name, description } = metadata;
       let members: Contributor[] = [];
 
       if (description) {
@@ -130,11 +145,46 @@ export function resolveContributionGroupMetadata(
       }
 
       return {
-        id,
+        id: groupId,
         name,
         members,
       } satisfies ContributionGroup;
     })(),
     (e) => e as Error
   );
+}
+
+type CreatePostMetadataParams = {
+  post: PostDraft;
+};
+export async function createPostMetadata({ post }: CreatePostMetadataParams) {
+  const metadata = article({
+    content: post.text,
+    title: post.title,
+    tags: post.tags,
+    attributes: [
+      {
+        key: PostMetadataAttributesKeys.ContributorsGroup,
+        type: MetadataAttributeType.STRING,
+        value: post.contributionGroupId,
+      },
+      {
+        key: PostMetadataAttributesKeys.OriginalMembers,
+        type: MetadataAttributeType.JSON,
+        value: JSON.stringify(
+          post.contributors.map((c) => ({
+            contributor: c.contributor.account,
+            role: c.role.id,
+          }))
+        ),
+      },
+    ],
+  });
+
+  const uploadMetadataResponse = await storageClient.uploadAsJson(metadata, {
+    // Once a post is created with a specific contribution group, its done.
+    acl: immutable(AppConfig.APP_CHAIN.id),
+  });
+  console.log("Uploaded post metadata", uploadMetadataResponse);
+  return uploadMetadataResponse.uri;
 }
