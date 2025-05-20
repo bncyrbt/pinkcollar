@@ -2,6 +2,8 @@
 
 _A decentralized social network for fashion creators, collaborators, and fans._
 
+**Please see attached pdf slideshow**
+
 ## 🚡 Table of Contents
 
 1. [About Pinkcollar](#about-pinkcollar)
