@@ -1,6 +1,8 @@
 import { useAccount } from "@/hooks/useAccount";
 import Image from "next/image";
 import { getProfession } from "@/constants/professions";
+import Link from "next/link";
+import { AppRoutes } from "@/routes";
 
 type ContributorPreviewProps = {
   accountId: string;
@@ -15,7 +17,8 @@ export const ContributorPreview = ({
   const { data } = useAccount({ address: accountId });
   const profession = getProfession(professionId);
 
-  return (
+  const localName = data?.localName;
+  const content = (
     <div className="flex flex-row items-center gap-2">
       <Image
         src="/icons/contribution-menu.svg"
@@ -28,5 +31,11 @@ export const ContributorPreview = ({
         <span className="underline">{profession?.label}</span>
       </div>
     </div>
+  );
+
+  return localName ? (
+    <Link href={AppRoutes.Profile(localName)}>{content}</Link>
+  ) : (
+    content
   );
 };

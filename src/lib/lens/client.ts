@@ -1,9 +1,10 @@
 "use client";
-import { PublicClient, testnet } from "@lens-protocol/client";
+import { PublicClient, testnet, mainnet } from "@lens-protocol/client";
 import { fragments } from "./fragments";
+import { AppConfig } from "../pinkcollar/config";
 
 const lensCLient = PublicClient.create({
-  environment: testnet,
+  environment: AppConfig.IS_MAINNET ? mainnet : testnet,
   storage: typeof window !== "undefined" ? window.localStorage : undefined,
   fragments,
 });

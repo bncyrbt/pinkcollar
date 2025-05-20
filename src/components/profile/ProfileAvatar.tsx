@@ -1,12 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AppRoutes } from "@/routes";
+import Link from "next/link";
 
 export const ProfileAvatar = ({
-  initials,
   src,
+  initials,
+  localName,
   variant,
 }: {
   initials?: string;
   src?: string;
+  localName?: string;
   variant: "large" | "medium" | "small";
 }) => {
   const sizeClasses = {
@@ -15,7 +19,7 @@ export const ProfileAvatar = ({
     small: "w-12 h-12 text-xl",
   };
 
-  return (
+  const avatar = (
     <Avatar
       className={`
         ${sizeClasses[variant]} 
@@ -35,5 +39,11 @@ export const ProfileAvatar = ({
         {initials}
       </AvatarFallback>
     </Avatar>
+  );
+
+  return localName ? (
+    <Link href={AppRoutes.Profile(localName)}>{avatar}</Link>
+  ) : (
+    avatar
   );
 };
