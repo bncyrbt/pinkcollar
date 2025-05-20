@@ -93,7 +93,7 @@ const store = create<PostState>((set) => ({
   removeImage: (previewUrl) =>
     set((state) => ({
       ...state,
-      images: state.images.filter((img) => img.previewUrl === previewUrl),
+      images: state.images.filter((img) => img.previewUrl !== previewUrl),
     })),
   reset: () => set({ ...initialState }),
 }));
